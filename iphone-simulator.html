@@ -1,0 +1,2303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhoneSmart – Learn your iPhone</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900;1000&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F2F9F2;
+  --card:#fff;
+  --green:#2E9E4F;
+  --green-dk:#1E7A3A;
+  --green-lt:#E8F7ED;
+  --green-light:#E8F7ED;
+  --green-mid:#4DB870;
+  --blue:#4A90D9;
+  --blue-light:#E8F2FC;
+  --red:#FF4B4B;
+  --orange:#FF9600;
+  --orange-light:#FFF0D6;
+  --yellow:#FFD700;
+  --yellow-dk:#E6C200;
+  --purple:#A560E8;
+  --text:#1A2E1A;
+  --text2:#4A6A4A;
+  --border:#C8E0CA;
+  --shadow:0 2px 16px rgba(46,158,79,.08);
+  --shadow-lg:0 8px 40px rgba(46,158,79,.14);
+  --r:18px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.hidden{display:none!important}
+
+/* ═══════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════ */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+
+/* ═══════════════════════════════════════════════════════
+   LANDING / LOGIN SCREEN
+═══════════════════════════════════════════════════════ */
+#landingScreen{
+  min-height:100vh;
+  align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#1A4D2E 0%,#2E7D46 55%,#3DAF5F 100%);
+  padding:24px;
+}
+#landingScreen.active{display:flex}
+.landing-box{
+  background:#fff;border-radius:28px;
+  padding:48px 44px 40px;
+  width:100%;max-width:480px;
+  box-shadow:0 24px 80px rgba(0,0,0,.22);
+  text-align:center;
+}
+.landing-logo{
+  width:80px;height:80px;
+  background:linear-gradient(145deg,#3DAF5F,#2E7D46);
+  border-radius:22px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;margin:0 auto 22px;
+  box-shadow:0 4px 0 #1E5A30;
+}
+.landing-app-name{font-size:44px;font-weight:900;color:#1A2E1A;letter-spacing:-1px;line-height:1;margin-bottom:8px}
+.landing-app-name span{color:var(--green)}
+.landing-tagline{font-size:17px;color:#4A6A4A;font-weight:600;margin-bottom:36px;line-height:1.5}
+.landing-divider{display:flex;align-items:center;gap:12px;margin:22px 0}
+.landing-divider-line{flex:1;height:1px;background:var(--border)}
+.landing-divider-txt{font-size:13px;font-weight:700;color:var(--text2)}
+.landing-google-btn{
+  width:100%;padding:15px 20px;
+  border:2px solid var(--border);border-radius:12px;
+  background:#fff;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;
+  color:var(--text);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  transition:border-color .15s,background .15s;margin-bottom:8px;
+}
+.landing-google-btn:hover{border-color:var(--green);background:var(--green-lt)}
+.landing-name-label{font-size:15px;font-weight:700;color:var(--text);text-align:left;margin-bottom:8px;display:block}
+.landing-name-input{
+  width:100%;padding:15px 18px;
+  border:2px solid var(--border);border-radius:12px;
+  font-family:'Nunito',sans-serif;font-size:18px;font-weight:600;color:var(--text);
+  outline:none;transition:border-color .2s,box-shadow .2s;margin-bottom:16px;
+}
+.landing-name-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(46,158,79,.15)}
+.landing-name-input::placeholder{color:#B0C8B0}
+.landing-start-btn{
+  width:100%;padding:17px;border:none;border-radius:14px;
+  background:linear-gradient(145deg,#3DAF5F,#2E7D46);color:#fff;
+  font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;
+  cursor:pointer;box-shadow:0 4px 0 #1E5A30;
+  transition:transform .1s,box-shadow .1s,opacity .15s;margin-top:4px;
+}
+.landing-start-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 #1E5A30}
+.landing-start-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #1E5A30}
+.landing-start-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.landing-skip{margin-top:16px;font-size:13px;color:var(--text2);font-weight:600;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Nunito',sans-serif}
+.landing-skip:hover{color:var(--green)}
+
+/* ═══════════════════════════════════════════════════════
+   TOP NAV  – stats only, no logo
+═══════════════════════════════════════════════════════ */
+.topnav{
+  background:#fff;
+  border-bottom:2px solid var(--border);
+  padding:0 28px;
+  height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.topnav-stats{display:flex;align-items:center;gap:20px}
+.stat-chip{display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:var(--text)}
+.stat-chip svg{flex-shrink:0}
+.logout-btn{
+  background:none;border:2px solid var(--border);
+  border-radius:8px;padding:7px 14px;
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;
+  color:var(--text2);cursor:pointer;
+  transition:border-color .15s,color .15s,background .15s;
+}
+.logout-btn:hover{border-color:var(--red);color:var(--red);background:#FFF0F0}
+
+/* ═══════════════════════════════════════════════════════
+   MAIN LAYOUT  (left path + right sticky)
+═══════════════════════════════════════════════════════ */
+.main-layout{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:0;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 24px 80px;
+  align-items:start;
+}
+.path-col{padding:40px 40px 40px 0}
+.side-col{padding:40px 0 40px 0;position:sticky;top:80px}
+
+.path-header{margin-bottom:28px}
+.path-greeting{font-size:28px;font-weight:900;color:var(--text);line-height:1.2;margin-bottom:4px}
+.path-greeting span{color:var(--green)}
+.path-subline{font-size:15px;color:var(--text2);font-weight:600;line-height:1.5}
+
+/* Search bar */
+.search-wrap{
+  margin-bottom:28px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.search-field-row{
+  position:relative;
+  display:flex;align-items:center;
+}
+.search-icon{
+  position:absolute;left:16px;
+  color:var(--text2);
+  display:flex;align-items:center;
+  pointer-events:none;
+  transition:color .2s;
+}
+.search-input{
+  width:100%;
+  padding:13px 44px 13px 46px;
+  border:2px solid var(--border);
+  border-radius:14px;
+  background:#fff;
+  font-family:'Nunito',sans-serif;
+  font-size:15px;font-weight:600;
+  color:var(--text);
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+  box-shadow:var(--shadow);
+}
+.search-input::placeholder{color:var(--text2);font-weight:600}
+.search-input:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(74,144,217,.15), var(--shadow);
+}
+.search-input:focus + .search-icon-right,
+.search-field-row:focus-within .search-icon{ color:var(--blue); }
+.search-clear{
+  position:absolute;right:14px;
+  width:24px;height:24px;
+  background:#E5E7EB;
+  border:none;border-radius:50%;
+  font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  color:var(--text2);
+  transition:background .15s,opacity .15s;
+  opacity:0;pointer-events:none;
+}
+.search-clear.visible{opacity:1;pointer-events:auto}
+.search-clear:hover{background:#D1D5DB}
+.search-kbd{
+  position:absolute;right:14px;
+  background:#F3F4F6;
+  border:1.5px solid var(--border);
+  border-radius:6px;
+  padding:2px 7px;
+  font-size:11px;font-weight:700;
+  color:var(--text2);
+  pointer-events:none;
+  transition:opacity .2s;
+}
+.search-kbd.hide{opacity:0}
+
+/* Search Filter */
+.filter-chips{display:flex;gap:8px;flex-wrap:wrap}
+.filter-chip{
+  padding:11px 18px;
+  border-radius:8px;
+  border:2px solid var(--border);
+  background:#fff;
+  font-family:'Nunito',sans-serif;
+  font-size:14px;font-weight:700;
+  color:var(--text2);
+  cursor:pointer;
+  transition:all .15s;
+  min-width:80px;
+  text-align:center;
+}
+.filter-chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.filter-chip.active-chip{
+  border-color:var(--blue);
+  background:var(--blue);
+  color:#fff;
+}
+.filter-chip.chip-easy.active-chip{background:var(--green);border-color:var(--green-dk);}
+.filter-chip.chip-medium.active-chip{background:var(--orange);border-color:#d07800;}
+.filter-chip.chip-hard.active-chip{background:var(--purple);border-color:#8040c0;}
+
+/* Search result count */
+.search-result-meta{
+  font-size:13px;font-weight:700;
+  color:var(--text2);
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:-8px;
+  min-height:20px;
+}
+.result-highlight{color:var(--blue);font-weight:800}
+
+/* No results state */
+.no-results{
+  text-align:center;
+  padding:48px 24px;
+  background:#fff;
+  border-radius:var(--r);
+  border:2px dashed var(--border);
+}
+.no-results-emoji{font-size:48px;margin-bottom:12px;display:block}
+.no-results-title{font-size:18px;font-weight:900;margin-bottom:6px;color:var(--text)}
+.no-results-sub{font-size:14px;color:var(--text2);line-height:1.6}
+.no-results-clear{
+  margin-top:16px;
+  padding:10px 24px;
+  border:none;border-radius:10px;
+  background:var(--blue-light);color:var(--blue);
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;
+  cursor:pointer;
+  transition:background .15s;
+}
+.no-results-clear:hover{background:#D0E8FF}
+
+/* Highlight matched text */
+.search-match{
+  background:#FFF9C4;
+  border-radius:3px;
+  padding:0 2px;
+  font-weight:800;
+}
+
+/* Difficulty section header */
+.diff-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:25px;
+  margin-top:40px;
+}
+.diff-header:first-of-type{margin-top:0}
+.diff-pill{
+  padding:5px 14px;
+  border-radius:20px;
+  font-size:14px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.8px;
+}
+.diff-pill.easy{background:var(--green-dk);color:#E6F9D0}
+.diff-pill.medium{background:#C47200;color:#FFF0D6}
+.diff-pill.hard{background:var(--purple);color: #F0E8FD}
+.diff-line{flex:1;height:2px;background:var(--border);border-radius:1px}
+
+/* Task box */
+
+.task-card{
+  background:var(--card);
+  border:2px solid var(--border);
+  border-radius:var(--r);
+  padding:20px 24px;
+  margin-bottom:14px;
+  box-shadow:var(--shadow);
+  position:relative;
+  transition:border-color .2s,box-shadow .2s;
+}
+.task-card.completed{border-color:var(--green)}
+.task-card.locked{opacity:.55}
+
+/* connector line between cards */
+.task-card::after{
+  content:'';
+  position:absolute;
+  bottom:-16px;left:50%;
+  transform:translateX(-50%);
+  width:2px;height:16px;
+  background:var(--border);
+}
+.task-card:last-of-type::after{display:none}
+
+.task-card-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.task-icon-wrap{
+  width:52px;height:52px;
+  border-radius:15px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;
+  flex-shrink:0;
+  position:relative;
+}
+.task-lock-badge{
+  position:absolute;bottom:-4px;right:-4px;
+  width:20px;height:20px;
+  background:#9CA3AF;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid #fff;
+  font-size:9px;
+}
+.task-meta{flex:1}
+.task-name{font-size:20px;font-weight:900;line-height:1.2;margin-bottom:3px}
+.task-status-badge{
+  font-size:11px;font-weight:800;
+  padding:4px 12px;border-radius:20px;
+  white-space:nowrap;flex-shrink:0;
+}
+.task-status-badge.done{background:var(--green-lt);color:var(--green-dk)}
+.task-status-badge.inprog{background:var(--blue-light);color:#2563EB}
+.task-status-badge.locked{background:#F3F4F6;color:#9CA3AF}
+
+/* Module row */
+.modules-row{display:flex;gap:10px}
+.module-btn{
+  flex:1;
+  padding:15px 8px 10px;
+  border-radius:14px;
+  border:2px solid var(--border);
+  background:#fff;
+  cursor:pointer;
+  font-family:'Nunito',sans-serif;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  transition:all .15s;
+  position:relative;
+  overflow:hidden;
+}
+.module-btn:hover:not(.mod-locked):not(.mod-done){
+  transform:translateY(-2px);
+  box-shadow:0 4px 16px rgba(0,0,0,.1);
+}
+.module-btn.mod-done{
+  background:var(--green-lt);
+  border-color:var(--green);
+  cursor:default;
+}
+.module-btn.mod-active{
+  border-color:var(--blue);
+  background:var(--blue-light);
+}
+.module-btn.mod-locked{
+  background:#F9FAFB;
+  cursor:not-allowed;
+}
+.module-icon{font-size:22px;line-height:1}
+.module-label{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--text2)}
+.module-btn.mod-done .module-label{color:var(--green-dk)}
+.module-btn.mod-active .module-label{color:var(--blue)}
+.module-checkmark{
+  position:absolute;top:6px;right:8px;
+  font-size:14px;
+}
+.module-lock{font-size:14px;color:#9CA3AF}
+
+/* XP bar under modules */
+.xp-bar-wrap{margin-top:14px}
+.xp-bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;font-size:12px;font-weight:700;color:var(--text2)}
+.xp-bar-track{height:8px;background:#E5E7EB;border-radius:4px;overflow:hidden}
+.xp-bar-fill{height:100%;border-radius:4px;background:var(--green);transition:width .4s ease;position:relative}
+.xp-bar-fill::after{content:'';position:absolute;top:0;left:0;right:0;height:50%;background:rgba(255,255,255,.3);border-radius:4px}
+
+/* ═══════════════════════════════════════════════════════
+   DICE SIDEBAR
+═══════════════════════════════════════════════════════ */
+.dice-panel{
+  background:var(--card);
+  border:2px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.dice-panel-header{
+  background:var(--green-dk);
+  padding:20px 20px 18px;
+  text-align:center;
+}
+.dice-panel-title{
+  font-family:'Fraunces',serif;
+  font-size:20px;font-weight:900;
+  color:#fff;margin-bottom:4px;
+}
+.dice-panel-sub{font-size:14px;color:rgba(255,255,255,.6);font-weight:600}
+.dice-visual{
+  padding:24px 20px 20px;
+  display:flex;flex-direction:column;align-items:center;
+  gap:16px;
+}
+.dice-wrap{
+  width:100px;height:100px;
+  position:relative;
+  cursor:pointer;
+}
+.dice-face{
+  width:100px;height:100px;
+  background:linear-gradient(145deg,#fff 0%,#F0F4F0 100%);
+  border-radius:18px;
+  border:3px solid var(--border);
+  box-shadow:0 6px 0 #C5D0C0, var(--shadow-lg);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
+  padding:10px;gap:4px;
+  transition:transform .1s;
+}
+.dice-face.locked{
+  background:linear-gradient(145deg,#F3F4F6,#E5E7EB);
+  border-color:#D1D5DB;
+  box-shadow:0 4px 0 #B0B7B0;
+  filter:grayscale(1);
+  cursor:not-allowed;
+}
+.dice-dot{
+  width:100%;height:100%;
+  background:var(--text);
+  border-radius:50%;
+  display:none;
+}
+/* dot positions for face-6 */
+.dice-face .dice-dot:nth-child(1){display:block;grid-column:1;grid-row:1}
+.dice-face .dice-dot:nth-child(2){display:block;grid-column:3;grid-row:1}
+.dice-face .dice-dot:nth-child(3){display:block;grid-column:1;grid-row:2}
+.dice-face .dice-dot:nth-child(4){display:block;grid-column:3;grid-row:2}
+.dice-face .dice-dot:nth-child(5){display:block;grid-column:1;grid-row:3}
+.dice-face .dice-dot:nth-child(6){display:block;grid-column:3;grid-row:3}
+.dice-face.locked .dice-dot{background:#9CA3AF}
+
+.dice-lock-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;
+}
+.dice-lock-icon{font-size:32px}
+.dice-lock-txt{font-size:10px;font-weight:800;color:#6B7280;text-align:center;text-transform:uppercase;letter-spacing:.5px}
+
+.dice-desc{font-size:13px;color:var(--text2);text-align:center;line-height:1.6;padding:0 4px}
+.dice-unlock-req{
+  background:var(--green-light);
+  border:1.5px solid #39aa4f;
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:14px;font-weight:700;
+  color:#164906;
+  text-align:center;
+  line-height:1.5;
+  width:100%;
+}
+.dice-play-btn{
+  width:100%;
+  padding:14px;
+  border:none;border-radius:14px;
+  background:var(--green);
+  box-shadow:0 4px 0 var(--green-dk);
+  color:#fff;
+  font-family:'Nunito',sans-serif;
+  font-size:16px;font-weight:900;
+  cursor:pointer;
+  transition:transform .1s,box-shadow .1s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.dice-play-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--green-dk)}
+.dice-play-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-dk)}
+.dice-play-btn:disabled{background:#E5E7EB;box-shadow:0 4px 0 #C5C7CB;color:#9CA3AF;cursor:not-allowed;transform:none}
+
+.dice-panel-footer{
+  padding:14px 20px;
+  border-top:2px solid var(--border);
+  display:flex;flex-direction:column;gap:8px;
+}
+.streak-row{display:flex;align-items:center;justify-content:space-between}
+.streak-item{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--text2)}
+
+/* ═══════════════════════════════════════════════════════
+   MODAL BACKDROP
+═══════════════════════════════════════════════════════ */
+.modal-backdrop{
+  position:fixed;inset:0;
+  background:rgba(10,10,30,.55);
+  backdrop-filter:blur(6px);
+  z-index:500;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  animation:fadeIn .2s ease;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ═══════════════════════════════════════════════════════
+   LEARN MODAL  — clean, big, fits window
+═══════════════════════════════════════════════════════ */
+.learn-modal{
+  background:#fff;
+  border-radius:24px;
+  width:100%;max-width:460px;
+  box-shadow:0 20px 60px rgba(0,0,0,.22);
+  animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);
+  overflow:hidden;
+}
+@keyframes slideUp{from{transform:translateY(32px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+.learn-modal-inner{
+  padding:36px 32px 28px;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  gap:0;
+}
+
+/* Big emoji at top */
+.learn-emoji{font-size:72px;line-height:1;display:block;margin-bottom:20px}
+
+/* Topic label pill */
+.learn-topic-pill{
+  display:inline-block;
+  background:var(--blue-light);color:var(--blue);
+  font-size:13px;font-weight:800;
+  padding:5px 16px;border-radius:6px;
+  margin-bottom:16px;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+
+/* Main title — large and bold */
+.learn-title{
+  font-size:28px;font-weight:900;
+  color:var(--text);
+  line-height:1.2;
+  margin-bottom:14px;
+}
+
+/* One-line plain English definition */
+.learn-plain{
+  font-size:19px;font-weight:600;
+  color:var(--text2);
+  line-height:1.6;
+  margin-bottom:22px;
+  max-width:360px;
+}
+
+/* Why it matters box */
+.learn-why{
+  background:var(--bg);
+  border-radius:14px;
+  border-left:5px solid var(--green);
+  padding:16px 20px;
+  width:100%;
+  text-align:left;
+  margin-bottom:28px;
+}
+.learn-why-label{
+  font-size:14px;font-weight:800;
+  color:var(--green-dk);
+  text-transform:uppercase;letter-spacing:.5px;
+  margin-bottom:6px;
+}
+.learn-why-text{
+  font-size:17px;font-weight:600;
+  color:var(--text);
+  line-height:1.55;
+}
+
+/* Got it button */
+.learn-got-it{
+  width:100%;
+  padding:16px;
+  border:none;border-radius:14px;
+  background:var(--green);
+  color:#fff;
+  font-family:'Nunito',sans-serif;
+  font-size:18px;font-weight:800;
+  cursor:pointer;
+  box-shadow:0 4px 0 var(--green-dk);
+  transition:transform .1s,box-shadow .1s;
+}
+.learn-got-it:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--green-dk)}
+.learn-got-it:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-dk)}
+
+/* ═══════════════════════════════════════════════════════
+   SIMULATOR SCREEN  – full-viewport, phone centred
+═══════════════════════════════════════════════════════ */
+#simScreen{background:var(--bg);flex-direction:column;height:100vh;overflow:hidden}
+#simScreen.active{display:flex}
+.sim-topbar{
+  background:var(--green-dk);border-bottom:2px solid var(--border);
+  padding:0 24px;height:56px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sim-back{background:none;border:none;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:var(--bg);cursor:pointer;display:flex;align-items:center;gap:4px}
+.sim-task-name{font-size:15px;font-weight:800;color:var(--bg)}
+.sim-mode-badge{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;padding:4px 12px;border-radius:20px}
+.sim-mode-badge.practice{background:var(--blue-light);color:var(--blue)}
+.sim-mode-badge.test{background:var(--orange-light);color:#B45309}
+.sim-score{font-size:14px;font-weight:800;color:var(--green)}
+
+/* sim body — default: phone centred (test mode, no side panel) */
+.sim-body{
+  flex:1;
+  display:flex;flex-direction:row;
+  align-items:center;justify-content:center;
+  gap:28px;
+  padding:16px 32px 20px;
+  overflow:hidden;
+  min-height:0;
+}
+
+/* Practice mode: phone left, steps panel right */
+.sim-body.practice-layout{
+  justify-content:center;
+}
+
+/* Practice steps panel on the right */
+.practice-steps-panel{
+  width:400px;
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-self:center;
+  max-height:100%;
+  overflow-y:auto;
+}
+/* phone shell scales to fit available height */
+.phone-shell{
+  background:#1a1a1a;border-radius:44px;
+  padding:9px 9px 5px;
+  box-shadow:0 0 0 2px #3a3a3a,0 16px 50px rgba(0,0,0,.45),inset 0 0 0 1px #555;
+  flex-shrink:0;
+  /* scale so it always fits */
+}
+.phone-screen{
+  background:#fff;
+  border-radius:36px;
+  overflow:hidden;
+  position:relative;
+  /* height set dynamically via JS */
+}
+.phone-home-btn{width:80px;height:4px;background:#333;border-radius:2px;margin:6px auto 3px}
+.dynamic-island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#000;border-radius:20px;z-index:20;pointer-events:none}
+.phone-status-bar{position:absolute;top:0;left:0;right:0;height:48px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 18px 7px;z-index:15;pointer-events:none}
+.status-time{font-size:14px;font-weight:800}
+.iphone-view{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
+#iphoneHome{background:linear-gradient(155deg,#1B1464 0%,#2D1B69 30%,#1A237E 60%,#006064 100%)}
+.home-inner{flex:1;display:flex;flex-direction:column;padding:48px 10px 0;overflow:hidden}
+.home-time-big{color:#fff;text-align:center;font-size:50px;font-weight:200;letter-spacing:-2px;line-height:1;margin-top:2px}
+.home-date-big{color:rgba(255,255,255,.7);text-align:center;font-size:11px;font-weight:600;margin:2px 0 10px}
+.app-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px 4px}
+.app-icon{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.app-icon-img{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:transform .12s;flex-shrink:0;overflow:hidden}
+.app-icon:active .app-icon-img{transform:scale(.86)}
+.app-label{font-size:9px;color:#fff;font-weight:600;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.6);max-width:50px;line-height:1.1}
+.dock{background:rgba(255,255,255,.15);backdrop-filter:blur(20px);border-radius:22px;margin:7px 7px 8px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center}
+#iphoneSettings,#iphoneAccessibility,#iphoneDisplayText,#iphoneWifi{background:#F2F2F7;flex:1;display:flex;flex-direction:column}
+.settings-scroll{flex:1;overflow-y:auto}
+.settings-nav{background:rgba(242,242,247,.95);padding:48px 16px 6px;backdrop-filter:blur(10px)}
+.settings-nav-title{font-size:25px;font-weight:800;color:#000}
+.settings-search{margin-top:7px;background:#E5E5EA;border-radius:10px;padding:6px 12px;display:flex;align-items:center;gap:6px;font-size:13px;color:#8E8E93}
+.settings-group{margin:14px 14px 0}
+.settings-section{background:#fff;border-radius:12px;overflow:hidden}
+.settings-section-label{font-size:11px;color:#6D6D72;padding:0 4px 5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.setting-row{display:flex;align-items:center;padding:9px 13px;border-bottom:.5px solid #E5E5EA;cursor:pointer;transition:background .1s;min-height:42px}
+.setting-row:last-child{border-bottom:none}
+.setting-row:active{background:#E5E5EA}
+.setting-row-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-right:11px;flex-shrink:0;overflow:hidden}
+.setting-row-text{flex:1;min-width:0}
+.setting-row-title{font-size:14px;font-weight:500;color:#000}
+.setting-row-sub{font-size:11px;color:#8E8E93;margin-top:1px}
+.setting-row-right{display:flex;align-items:center;gap:5px;font-size:12px;color:#8E8E93;flex-shrink:0}
+.chevron{font-size:11px;color:#C7C7CC}
+.ios-toggle{width:44px;height:26px;background:#E5E5EA;border-radius:13px;position:relative;cursor:pointer;transition:background .25s;flex-shrink:0}
+.ios-toggle.on{background:#34C759}
+.ios-toggle::after{content:'';position:absolute;top:2px;left:2px;width:22px;height:22px;background:#fff;border-radius:50%;transition:transform .25s;box-shadow:0 1px 5px rgba(0,0,0,.3)}
+.ios-toggle.on::after{transform:translateX(18px)}
+.sub-nav{background:rgba(242,242,247,.95);padding:9px 13px 7px;display:flex;align-items:center;border-bottom:.5px solid #C6C6C8;flex-shrink:0}
+.sub-nav-back{color:#007AFF;font-size:14px;cursor:pointer;font-weight:500;background:none;border:none;font-family:inherit;white-space:nowrap}
+.sub-nav-title{flex:1;text-align:center;font-size:15px;font-weight:700;color:#000;padding-right:52px}
+.font-slider{width:100%;-webkit-appearance:none;height:4px;border-radius:2px;outline:none;cursor:pointer;margin:8px 0}
+.font-slider::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer}
+
+/* Practice: instruction card below phone */
+.practice-instruction{
+  width:100%;max-width:340px;
+  background:#fff;border-radius:16px;border:2px solid var(--blue);
+  padding:14px 18px;
+  box-shadow:var(--shadow);
+  display:flex;gap:12px;align-items:flex-start;
+  flex-shrink:0;
+}
+.practice-step-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--blue);color:#fff;
+  font-size:13px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.practice-step-text{}
+.practice-step-title{font-size:14px;font-weight:800;color:var(--text);margin-bottom:3px}
+.practice-step-inst{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* step progress dots (test mode, below phone) */
+.step-dots{display:flex;gap:8px;align-items:center}
+.step-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all .25s}
+.step-dot.active{background:var(--blue);width:24px;border-radius:5px}
+.step-dot.done{background:var(--green)}
+
+/* tap feedback */
+.tap-feedback{position:absolute;width:54px;height:54px;border-radius:50%;pointer-events:none;z-index:1000;animation:tapPop .5s ease-out forwards;transform:translate(-50%,-50%)}
+.tap-feedback.correct{border:3px solid #34C759;background:rgba(52,199,89,.22)}
+.tap-feedback.wrong{border:3px solid #FF3B30;background:rgba(255,59,48,.22)}
+@keyframes tapPop{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}60%{opacity:.9;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+
+/* wrong-attempt toast banner (bigger, centred) */
+.wrong-banner{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  background:var(--green-dk);color:#fff;
+  border-radius:16px;padding:14px 24px;
+  font-size:16px;font-weight:700;
+  max-width:420px;width:90%;
+  text-align:center;line-height:1.5;
+  box-shadow:0 8px 32px rgba(0,0,0,.25);
+  z-index:2000;
+  animation:bannerIn .35s cubic-bezier(.34,1.56,.64,1),bannerOut .3s ease-in 3.5s forwards;
+}
+.wrong-banner .wb-emoji{font-size:22px;display:block;margin-bottom:4px}
+@keyframes bannerIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes bannerOut{from{opacity:1}to{opacity:0;pointer-events:none}}
+
+/* ═══════════════════════════════════════════════════════
+   COMPLETION / TROPHY MODAL
+═══════════════════════════════════════════════════════ */
+.comp-modal{
+  background:#fff;border-radius:28px;
+  width:100%;max-width:400px;
+  overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.3);
+  animation:slideUp .35s cubic-bezier(.34,1.56,.64,1);
+}
+.comp-modal-hero{
+  background:linear-gradient(160deg,#2D8C2D 0%,#3DAF3D 50%,#46C246 100%);
+  padding:40px 32px 30px;
+  text-align:center;
+  position:relative;
+}
+.trophy-wrap{
+  display:inline-block;
+  margin-bottom:14px;
+}
+.trophy-icon{
+  font-size:100px;line-height:1;
+  display:block;
+  animation:trophyBounce .7s cubic-bezier(.34,1.56,.64,1);
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.25));
+}
+@keyframes trophyBounce{0%{transform:scale(0);opacity:0}60%{transform:scale(1.15)}80%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}
+.comp-modal-title{font-size:26px;font-weight:900;color:#fff;margin-bottom:6px}
+.comp-modal-sub{font-size:14px;color:rgba(255,255,255,.85);font-weight:600}
+.comp-modal-body{padding:24px 28px}
+.comp-xp-badge{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(135deg,#F0FFF0,#E6F9D0);
+  border:2px solid #58CC02;
+  border-radius:16px;
+  padding:16px 24px;
+  margin-bottom:20px;
+}
+.comp-xp-icon{font-size:28px}
+.comp-xp-text{font-size:24px;font-weight:900;color:#2D6A00}
+.comp-xp-label{font-size:12px;font-weight:700;color:#46A302;text-transform:uppercase;letter-spacing:.5px}
+.comp-share-section{margin-bottom:20px}
+.comp-share-title{font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;text-align:center}
+.comp-share-btns{display:flex;gap:8px}
+.share-btn{
+  flex:1;padding:10px 8px;border:2px solid var(--border);border-radius:12px;
+  background:#fff;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  color:var(--text2);transition:all .15s;
+}
+.share-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.share-btn.twitter:hover{border-color:#1DA1F2;color:#1DA1F2;background:#E8F5FD}
+.share-btn.copy:hover{border-color:var(--green);color:var(--green-dk);background:var(--green-lt)}
+.comp-footer-btns{display:flex;gap:10px}
+.comp-btn{flex:1;padding:13px;border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:all .15s}
+.comp-btn.primary{background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-dk)}
+.comp-btn.primary:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--green-dk)}
+.comp-btn.secondary{background:#F3F4F6;color:var(--text2)}
+.comp-btn.secondary:hover{background:#E5E7EB}
+
+
+/* Trophy shelf on home page */
+.trophy-shelf-wrap{margin-bottom:24px}
+.trophy-shelf-header{
+  display:flex;align-items:center;gap:12px;
+  background:#fff;
+  border:2px solid #E6C800;
+  border-radius:14px;
+  padding:14px 18px;
+  cursor:pointer;
+  transition:background .15s;
+  box-shadow:var(--shadow);
+}
+.trophy-shelf-header:hover{background:#FFFDE7}
+.trophy-shelf-header-icon{font-size:26px}
+.trophy-shelf-header-text{flex:1}
+.trophy-shelf-header-title{font-size:17px;font-weight:800;color:var(--text)}
+.trophy-shelf-header-sub{font-size:13px;color:var(--text2);margin-top:2px}
+.trophy-count-badge{
+  background:#1A1A2E;
+  color:#FFD700;
+  font-size:15px;font-weight:900;
+  border-radius:8px;
+  padding:5px 12px;
+  min-width:36px;
+  text-align:center;
+}
+.trophy-shelf-toggle{font-size:13px;font-weight:700;color:#B45309;background:#FFF3CD;border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap}
+.trophy-cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:14px;
+  margin-top:14px;
+}
+.trophy-card{
+  background:#fff;
+  border-radius:16px;
+  border:2px solid #E6C800;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+.trophy-card-visual{
+  background:linear-gradient(160deg,#FFF9C4 0%,#FFF3CD 60%,#FFE082 100%);
+  padding:22px 16px 14px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  position:relative;
+}
+.trophy-card-medal{font-size:52px;line-height:1;display:block}
+.trophy-card-shine{
+  position:absolute;top:8px;right:12px;
+  font-size:16px;opacity:.6;
+  animation:twinkle 2s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:.3;transform:scale(.9)}50%{opacity:.8;transform:scale(1.1)}}
+.trophy-card-body{padding:12px 12px 14px}
+.trophy-card-title{font-size:14px;font-weight:900;color:var(--text);margin-bottom:3px;line-height:1.3}
+.trophy-card-label{
+  display:inline-block;
+  background:#FFF3CD;
+  color:#B45309;
+  font-size:11px;font-weight:800;
+  padding:3px 10px;border-radius:20px;
+  margin-bottom:4px;
+  text-transform:uppercase;letter-spacing:.4px;
+}
+.trophy-card-date{font-size:11px;color:var(--text2)}
+
+/* 🔥 Daily streak popup */
+.streak-popup-backdrop{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:8000;
+  display:flex;align-items:center;justify-content:center;
+  animation:fadeIn .25s ease;
+}
+.streak-popup{
+  background:#fff;
+  border-radius:24px;
+  padding:40px 44px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  animation:slideUp .35s cubic-bezier(.34,1.56,.64,1);
+  max-width:320px;width:90%;
+}
+.streak-popup-fire{font-size:72px;line-height:1;display:block;margin-bottom:12px;animation:firePop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes firePop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+.streak-popup-number{font-size:56px;font-weight:900;color:#FF6B00;line-height:1;margin-bottom:6px}
+.streak-popup-label{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px}
+.streak-popup-sub{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:24px}
+.streak-popup-btn{
+  width:100%;padding:14px;border:none;border-radius:12px;
+  background:#FF6B00;color:#fff;
+  font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;
+  cursor:pointer;transition:opacity .15s;
+}
+.streak-popup-btn:hover{opacity:.88}
+
+/* toasts */
+.toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.toast{padding:9px 20px;border-radius:20px;font-size:14px;font-weight:700;color:#fff;animation:tIn .3s ease-out,tOut .3s ease-in 2s forwards;white-space:nowrap}
+.toast.correct{background:#34C759}
+.toast.wrong{background:#FF3B30}
+.toast.info{background:var(--blue)}
+@keyframes tIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tOut{from{opacity:1}to{opacity:0}}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:#C5D0C0;border-radius:2px}
+
+/* unlock anim */
+@keyframes unlockPop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+.just-unlocked{animation:unlockPop .5s cubic-bezier(.34,1.56,.64,1)}
+
+@keyframes confettiFall{
+  0%{transform:translateY(0) rotate(0deg);opacity:1}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0}
+}
+@media(max-width:768px){
+  .main-layout{grid-template-columns:1fr;padding:0 16px 60px}
+  .side-col{position:relative;top:0;padding:0 0 20px}
+  .path-col{padding:24px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════════════ LANDING / LOGIN SCREEN ═══════════════ -->
+<div id="landingScreen" class="screen active">
+  <div class="landing-box">
+    <!--div class="landing-logo">📱</div-->
+    <div class="landing-app-name">Any<span>Name</span></div>
+    <div class="landing-tagline">Learn your iPhone, step by step.<br>Safe, simple, and fun.</div>
+
+    <!-- Google sign-in button (UI only) -->
+    <button class="landing-google-btn" onclick="alert('Google sign-in is not implemented in this demo. Just enter a name below to start learning!')">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continue with Google
+    </button>
+
+    <div class="landing-divider">
+      <div class="landing-divider-line"></div>
+      <span class="landing-divider-txt">or enter your name</span>
+      <div class="landing-divider-line"></div>
+    </div>
+
+    <label class="landing-name-label" for="nameInput">What's your name?</label>
+    <input
+      type="text"
+      id="nameInput"
+      class="landing-name-input"
+      placeholder="e.g. Nashit"
+      maxlength="30"
+      oninput="updateStartBtn()"
+      onkeydown="if(event.key==='Enter') startLearning()"
+    >
+    <button class="landing-start-btn" id="startBtn" onclick="startLearning()" disabled>
+      Start Learning →
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════ MAIN HOME SCREEN ═══════════════ -->
+<div id="homeScreen" class="screen">
+
+  <!-- Top Nav — stats only -->
+  <nav class="topnav">
+    <button class="logout-btn" onclick="logout()">← Log Out</button>
+    <div class="topnav-stats">
+      <div class="stat-chip">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#FFD700" stroke="#E6B800" stroke-width="1.5"/></svg>
+        <span id="totalXP">0 XP</span>
+      </div>
+      <div class="stat-chip">
+        <span id="streakCount">🔥 0</span>
+      </div>
+      <div class="stat-chip" style="font-size:13px;color:var(--text2)">
+        <span id="completedCount">0/0</span> done
+      </div>
+    </div>
+  </nav>
+
+  <!-- Two-column layout -->
+  <div class="main-layout">
+
+    <!-- LEFT: Task Path -->
+    <div class="path-col">
+      <div class="path-header">
+        <div class="path-greeting">Hey, <span id="greetingName">there</span>! 👋</div>
+        <div class="path-subline">Here is your learning path. Follow the steps to progress!</div>
+      </div>
+
+      <!-- Trophy shelf (always visible) -->
+      <div id="trophyShelf"></div>
+
+      <!-- Search bar -->
+      <div class="search-wrap">
+        <div class="search-field-row">
+          <span class="search-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><line x1="16" y1="16" x2="22" y2="22"/></svg>
+          </span>
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="Search tasks… e.g. Wi-Fi, text size"
+            autocomplete="off"
+            oninput="handleSearch()"
+            onkeydown="handleSearchKey(event)"
+          >
+          <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Clear search">✕</button>
+          <span class="search-kbd" id="searchKbd">/ to search</span>
+        </div>
+        <div class="filter-chips">
+          <button class="filter-chip active-chip" data-filter="all" onclick="setFilter('all')">All Tasks</button>
+          <button class="filter-chip chip-easy" data-filter="easy" onclick="setFilter('easy')">Easy</button>
+          <button class="filter-chip chip-medium" data-filter="medium" onclick="setFilter('medium')">Medium</button>
+          <button class="filter-chip chip-hard" data-filter="hard" onclick="setFilter('hard')">Hard</button>
+          <button class="filter-chip" data-filter="inprogress" onclick="setFilter('inprogress')">▶ In Progress</button>
+          <button class="filter-chip" data-filter="done" onclick="setFilter('done')">✓ Completed</button>
+        </div>
+        <div class="search-result-meta" id="searchMeta"></div>
+      </div>
+
+      <div id="taskPath"></div>
+    </div>
+
+    <!-- RIGHT: Sticky Dice -->
+    <div class="side-col">
+      <div class="dice-panel" id="dicePanel">
+        <div class="dice-panel-header">
+          <div class="dice-panel-title">🎲 Roll the Dice</div>
+          <div class="dice-panel-sub">Challenge Mode</div>
+        </div>
+        <div class="dice-visual">
+          <div class="dice-wrap" id="diceWrap" onclick="handleDiceClick()">
+            <div class="dice-face locked" id="diceFace">
+              <div class="dice-dot"></div><div class="dice-dot"></div>
+              <div class="dice-dot"></div><div class="dice-dot"></div>
+              <div class="dice-dot"></div><div class="dice-dot"></div>
+            </div>
+            <div class="dice-lock-overlay" id="diceLockOverlay">
+              <span class="dice-lock-icon">🔒</span>
+              <!--span class="dice-lock-txt">Complete a task<br>to unlock</span-->
+            </div>
+          </div>
+          
+          <div class="dice-unlock-req" id="diceReq">
+            Complete <strong>Learn + Practice + Test</strong> on any task to unlock
+          </div>
+          <button class="dice-play-btn" id="dicePlayBtn" disabled onclick="handleDicePlay()">
+            🎲 Roll the Dice
+          </button>
+        </div>
+        <div class="dice-panel-footer">
+          <div class="streak-row">
+            <div class="streak-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+              <span id="diceXP">0 XP earned</span>
+            </div>
+            <div class="streak-item">
+              🎲 <span id="diceRolls">0 rolls</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /#homeScreen -->
+
+<!-- ═══════════════ SIMULATOR SCREEN ═══════════════ -->
+<div id="simScreen" class="screen">
+  <div class="sim-topbar">
+    <button class="sim-back" onclick="exitSim()">‹ Back</button>
+    <span class="sim-task-name" id="simTaskName"></span>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="sim-mode-badge" id="simModeBadge"></span>
+      <span class="sim-score" id="simScoreDisplay" style="font-size:14px;font-weight:800;color:var(--green)"></span>
+    </div>
+  </div>
+  <div class="sim-body" id="simBody">
+    <!-- Phone -->
+    <div class="phone-shell" id="phoneShell">
+      <div class="phone-screen" id="phoneScreen">
+        <div class="dynamic-island"></div>
+        <div class="phone-status-bar" id="statusBar">
+          <span class="status-time" id="phoneClock" style="color:#fff">9:41</span>
+          <div style="display:flex;align-items:center;gap:4px">
+            <svg width="15" height="11" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1" fill="#fff"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1" fill="#fff"/><rect x="9" y=".5" width="3" height="11.5" rx="1" fill="#fff"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="#fff" opacity=".3"/></svg>
+            <svg width="24" height="11" viewBox="0 0 26 12"><rect x=".5" y=".5" width="21" height="11" rx="2.5" stroke="#fff" stroke-width="1" fill="none"/><rect x="2" y="2" width="15" height="8" rx="1.5" fill="#fff"/><rect x="22.5" y="4" width="3" height="4" rx="1" fill="#fff" opacity=".5"/></svg>
+          </div>
+        </div>
+        <div class="iphone-view" id="iphoneHome">
+          <div class="home-inner">
+            <div class="home-time-big" id="bigClock">9:41</div>
+            <div class="home-date-big" id="bigDate">Wednesday, March 18</div>
+            <div class="app-grid" id="appGrid"></div>
+          </div>
+          <div class="dock" id="dockGrid"></div>
+        </div>
+        <div class="iphone-view hidden" id="iphoneSettings">
+          <div class="settings-scroll">
+            <div class="settings-nav"><div class="settings-nav-title">Settings</div><div class="settings-search"><svg width="13" height="13" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="8" r="6" stroke="#8E8E93" stroke-width="2"/><line x1="13" y1="13" x2="19" y2="19" stroke="#8E8E93" stroke-width="2" stroke-linecap="round"/></svg> Search</div></div>
+            <div id="settingsContent"></div>
+          </div>
+        </div>
+        <div class="iphone-view hidden" id="iphoneAccessibility">
+          <div class="sub-nav"><button class="sub-nav-back" id="accessibilityBack">‹ Settings</button><span class="sub-nav-title">Accessibility</span></div>
+          <div class="settings-scroll"><div id="accessibilityContent"></div></div>
+        </div>
+        <div class="iphone-view hidden" id="iphoneDisplayText">
+          <div class="sub-nav"><button class="sub-nav-back" id="displayBack">‹ Accessibility</button><span class="sub-nav-title">Display & Text Size</span></div>
+          <div class="settings-scroll"><div id="displayContent"></div></div>
+        </div>
+        <div class="iphone-view hidden" id="iphoneWifi">
+          <div class="sub-nav"><button class="sub-nav-back" id="wifiBack">‹ Settings</button><span class="sub-nav-title">Wi-Fi</span></div>
+          <div style="padding:28px 16px;text-align:center;color:#8E8E93;font-size:13px;margin-top:10px"><div style="font-size:40px;margin-bottom:10px">✈️</div>Airplane Mode is on.<br>Turn it off to use Wi-Fi.</div>
+        </div>
+
+        <!-- Wi-Fi detail page (real toggle) -->
+        <div class="iphone-view hidden" id="iphoneWifiDetail">
+          <div class="sub-nav"><button class="sub-nav-back" id="wifiDetailBack">‹ Settings</button><span class="sub-nav-title">Wi-Fi</span></div>
+          <div class="settings-scroll"><div id="wifiDetailContent"></div></div>
+        </div>
+
+        <!-- Bluetooth detail page (real toggle) -->
+        <div class="iphone-view hidden" id="iphoneBluetoothDetail">
+          <div class="sub-nav"><button class="sub-nav-back" id="bluetoothDetailBack">‹ Settings</button><span class="sub-nav-title">Bluetooth</span></div>
+          <div class="settings-scroll"><div id="bluetoothDetailContent"></div></div>
+        </div>
+      </div>
+      <div class="phone-home-btn"></div>
+    </div>
+    <!-- instruction / dots rendered dynamically below phone -->
+    <div id="simBelowPhone"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ LEARN MODAL ═══════════════ -->
+<div class="modal-backdrop hidden" id="learnModalBg" onclick="closeLearnModal(event)">
+  <div class="learn-modal" id="learnModalInner" onclick="event.stopPropagation()">
+    <div class="learn-modal-inner">
+      <span class="learn-emoji" id="lmEmoji">✈️</span>
+      <div class="learn-topic-pill" id="lmTag">Learn</div>
+      <div class="learn-title" id="lmTitle">Airplane Mode</div>
+      <div class="learn-plain" id="lmPlain">A quick way to turn off all your phone's signals at once.</div>
+      <div class="learn-why">
+        <div class="learn-why-label">Why you'd use it</div>
+        <div class="learn-why-text" id="lmWhy">Airlines ask you to use it during flights. It also helps save battery when you're running low.</div>
+      </div>
+      <button class="learn-got-it" onclick="completedLearn()">Got it! ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PRACTICE COMPLETE MODAL (simple) ═══ -->
+<div class="modal-backdrop hidden" id="practiceCompBg">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:360px;padding:32px 28px;text-align:center;box-shadow:0 16px 60px rgba(0,0,0,.2);animation:slideUp .3s ease">
+    <div style="font-size:56px;margin-bottom:12px" id="practiceCompEmoji">👏</div>
+    <div style="font-size:22px;font-weight:900;color:var(--text);margin-bottom:6px" id="practiceCompTitle">Great job!</div>
+    <div style="font-size:15px;color:var(--text2);margin-bottom:20px;line-height:1.5" id="practiceCompSub">You finished practice.</div>
+    <div style="background:#FFF9E6;border:2px solid #FFD700;border-radius:12px;padding:12px 16px;margin-bottom:22px;display:flex;align-items:center;justify-content:center;gap:10px">
+      <span style="font-size:22px">⭐</span>
+      <span style="font-size:20px;font-weight:900;color:#92400E" id="practiceCompXP">+20 XP</span>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button onclick="closePracticeComp(false)" style="flex:1;padding:13px;border:2px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;cursor:pointer;background:#fff;color:var(--text2)">Back to Path</button>
+      <button onclick="closePracticeComp(true)" style="flex:1;padding:13px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;background:var(--green);color:#fff;box-shadow:0 3px 0 var(--green-dk)">Take the Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TEST / TROPHY MODAL (celebration) ═══ -->
+<div class="modal-backdrop hidden" id="compModalBg">
+  <div class="comp-modal">
+    <div class="comp-modal-hero" id="compHero">
+      <div class="trophy-wrap">
+        <span class="trophy-icon" id="compTrophyIcon">🏆</span>
+      </div>
+      <div class="comp-modal-title" id="compTitle">You did it!</div>
+      <div class="comp-modal-sub" id="compSub">Task completed</div>
+    </div>
+    <div class="comp-modal-body">
+      <div class="comp-xp-badge">
+        <span class="comp-xp-icon">⭐</span>
+        <div>
+          <div class="comp-xp-text" id="compPts">+50 XP</div>
+          <div class="comp-xp-label">Earned</div>
+        </div>
+      </div>
+      <div class="comp-share-section">
+        <div class="comp-share-title">🎉 Share your trophy!</div>
+        <div class="comp-share-btns">
+          <button class="share-btn twitter" onclick="shareTrophy('twitter')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X / Twitter
+          </button>
+          <button class="share-btn copy" onclick="shareTrophy('copy')">
+            📋 Copy Link
+          </button>
+        </div>
+      </div>
+      <div class="comp-footer-btns">
+        <button class="comp-btn primary" id="compNextBtn" onclick="closeCompModal()">Back to Path 🎉</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PRACTICE PROMPT POPUP (3 consecutive wrong in test) ═══ -->
+<div class="modal-backdrop hidden" id="practicePromptBg">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:380px;padding:32px 28px;text-align:center;box-shadow:0 16px 60px rgba(0,0,0,.2);animation:slideUp .3s ease">
+    <div style="font-size:52px;margin-bottom:12px">💭</div>
+    <div style="font-size:20px;font-weight:900;color:var(--text);margin-bottom:8px">Need a little practice?</div>
+    <div style="font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:24px">
+      It looks like you're finding this a bit tricky. That's totally okay!<br><br>
+      Why not try <strong>Practice Mode</strong> first? It will walk you through every step before you take the test.
+    </div>
+    <div style="display:flex;gap:12px">
+      <button onclick="closePracticePrompt('back')" style="flex:1;padding:14px;border:2px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;cursor:pointer;background:#fff;color:var(--text2)">Go Back</button>
+      <button onclick="closePracticePrompt('practice')" style="flex:1;padding:14px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;background:var(--blue);color:#fff">Try Practice 📖</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STREAK POPUP ═══ -->
+<div id="streakPopupBg" class="streak-popup-backdrop hidden">
+  <div class="streak-popup">
+    <span class="streak-popup-fire">🔥</span>
+    <div class="streak-popup-number" id="streakPopupNum">1</div>
+    <div class="streak-popup-label">Day Streak!</div>
+    <div class="streak-popup-sub" id="streakPopupSub">You made progress today. Keep it up — come back tomorrow to grow your streak!</div>
+    <button class="streak-popup-btn" onclick="closeStreakPopup()">Awesome! 🎉</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  SVG ICONS (iOS style)
+// ═══════════════════════════════════════════════════════
+function svg(c){return`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">${c}</svg>`}
+function gr(id,c1,c2){return`<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>`}
+const APP_ICONS={
+  phone:svg(`${gr('gPh','#5AF075','#34C759')}<rect width="60" height="60" rx="13" fill="url(#gPh)"/><path d="M40 36.5c-1.2-1.2-2.8-1.2-4 0l-2.4 2.4c-.2.2-.5.2-.7.1-3.2-1.9-6-4.7-7.9-7.9-.1-.2-.1-.5.1-.7l2.4-2.4c1.2-1.2 1.2-2.8 0-4l-3-3c-1.2-1.2-2.8-1.2-4 0l-1.5 1.5C17.7 24 17.5 26 18 28c1.5 5.7 5.3 10.7 10.5 14 2.2 1.4 4.7 2.2 7.3 2.2 1.4 0 2.8-.3 4-.9l1.2-1.2c1.2-1.2 1.2-2.8 0-4L40 36.5z" fill="white"/>`),
+  messages:svg(`${gr('gMs','#5AF075','#34C759')}<rect width="60" height="60" rx="13" fill="url(#gMs)"/><path d="M30 14C19.5 14 11 21 11 30c0 4.2 2 8 5.2 11L14 47l6-3c3 1 6.3 1.7 10 1.7 10.5 0 19-7 19-16S40.5 14 30 14z" fill="white"/><circle cx="22" cy="30" r="2.2" fill="#34C759"/><circle cx="30" cy="30" r="2.2" fill="#34C759"/><circle cx="38" cy="30" r="2.2" fill="#34C759"/>`),
+  mail:svg(`${gr('gMa','#62C8FF','#007AFF')}<rect width="60" height="60" rx="13" fill="url(#gMa)"/><rect x="11" y="18" width="38" height="26" rx="4" fill="white"/><polyline points="11,18 30,34 49,18" fill="none" stroke="#007AFF" stroke-width="2.5" stroke-linejoin="round"/>`),
+  safari:svg(`${gr('gSa','#62C8FF','#007AFF')}<rect width="60" height="60" rx="13" fill="url(#gSa)"/><circle cx="30" cy="30" r="17" fill="none" stroke="white" stroke-width="2"/><line x1="30" y1="13" x2="30" y2="47" stroke="white" stroke-width="1.5" opacity=".4"/><line x1="13" y1="30" x2="47" y2="30" stroke="white" stroke-width="1.5" opacity=".4"/><polygon points="36,21 22,30 30,39" fill="white"/><polygon points="24,39 38,30 30,21" fill="#FF3B30" opacity=".85"/>`),
+  music:svg(`${gr('gMu','#FF6B8A','#FF2D55')}<rect width="60" height="60" rx="13" fill="url(#gMu)"/><circle cx="30" cy="30" r="14" stroke="white" stroke-width="2.5" fill="none"/><circle cx="30" cy="30" r="6" fill="white"/><circle cx="30" cy="30" r="2.5" fill="#FF2D55"/>`),
+  photos:svg(`<rect width="60" height="60" rx="13" fill="white"/><path d="M30 30 L30 12 A18 18 0 0 1 46 30 Z" fill="#FF3B30"/><path d="M30 30 L46 30 A18 18 0 0 1 30 48 Z" fill="#FF9500"/><path d="M30 30 L30 48 A18 18 0 0 1 14 30 Z" fill="#34C759"/><path d="M30 30 L14 30 A18 18 0 0 1 30 12 Z" fill="#007AFF"/><circle cx="30" cy="30" r="7" fill="white"/>`),
+  camera:svg(`<rect width="60" height="60" rx="13" fill="#1C1C1E"/><rect x="9" y="20" width="42" height="28" rx="5" fill="#3A3A3C"/><circle cx="30" cy="34" r="9" fill="none" stroke="#636366" stroke-width="3"/><circle cx="30" cy="34" r="6" fill="#525252"/><circle cx="30" cy="34" r="3" fill="#8E8E93"/><rect x="21" y="14" width="11" height="7" rx="3" fill="#3A3A3C"/><circle cx="44" cy="24" r="2.5" fill="#007AFF"/>`),
+  clock:svg(`<rect width="60" height="60" rx="13" fill="#1C1C1E"/><circle cx="30" cy="30" r="15" fill="#2C2C2E"/><line x1="30" y1="30" x2="30" y2="20" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="30" y1="30" x2="38" y2="35" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"/><circle cx="30" cy="30" r="2.5" fill="white"/>`),
+  maps:svg(`${gr('gMp','#6FFFB0','#34C759')}<rect width="60" height="60" rx="13" fill="url(#gMp)"/><polygon points="15,11 30,19 45,11 45,49 30,41 15,49" fill="white" opacity=".9"/><line x1="30" y1="19" x2="30" y2="41" stroke="#34C759" stroke-width="1.5"/><circle cx="36" cy="24" r="4.5" fill="#FF3B30"/><path d="M36 19.5 Q40.5 24 36 31 Q31.5 24 36 19.5Z" fill="#FF3B30"/>`),
+  settings:svg(`<rect width="60" height="60" rx="13" fill="#8E8E93"/><circle cx="30" cy="30" r="9" fill="none" stroke="white" stroke-width="3"/><g stroke="white" stroke-width="3" stroke-linecap="round"><line x1="30" y1="11" x2="30" y2="18"/><line x1="30" y1="42" x2="30" y2="49"/><line x1="11" y1="30" x2="18" y2="30"/><line x1="42" y1="30" x2="49" y2="30"/><line x1="16.9" y1="16.9" x2="21.9" y2="21.9"/><line x1="38.1" y1="38.1" x2="43.1" y2="43.1"/><line x1="43.1" y1="16.9" x2="38.1" y2="21.9"/><line x1="21.9" y1="38.1" x2="16.9" y2="43.1"/></g>`),
+  facetime:svg(`${gr('gFT','#5AF075','#34C759')}<rect width="60" height="60" rx="13" fill="url(#gFT)"/><rect x="9" y="18" width="30" height="24" rx="5" fill="white" opacity=".92"/><polygon points="41,21 52,16 52,44 41,39" fill="white" opacity=".92"/>`),
+  wallet:svg(`<rect width="60" height="60" rx="13" fill="#000"/><rect x="9" y="19" width="42" height="28" rx="5" fill="#1C1C1E"/><rect x="9" y="25" width="42" height="7" fill="#2C2C2E"/><rect x="33" y="31" width="14" height="11" rx="3" fill="#FF9500"/><circle cx="40" cy="36.5" r="2.5" fill="#1C1C1E"/>`)
+};
+
+function sIcon(type){
+  const map={
+    airplane:['#007AFF',`<svg viewBox="0 0 30 30" fill="white"><path d="M15 4L17.5 13.5L25 11.5L23 15L17 16.5L19.5 23.5L15 21.5L10.5 23.5L13 16.5L7 15L5 11.5L12.5 13.5Z"/></svg>`],
+    wifi:['#007AFF',`<svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 11.5 C8.5 7 21.5 7 26 11.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M7.5 15.5 C10.5 12.5 19.5 12.5 22.5 15.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M11 19.5 C12.5 18 17.5 18 19 19.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="15" cy="23.5" r="2" fill="white"/>
+    </svg>`],
+    bluetooth:['#007AFF',`<svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="10,22 20,9 15,4 15,26 20,21 10,14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`],
+    notif:['#FF3B30',`<svg viewBox="0 0 30 30" fill="white"><path d="M15 4 Q9.5 4 9.5 11 L9.5 20.5 L6.5 22.5 L23.5 22.5 L20.5 20.5 L20.5 11 Q20.5 4 15 4Z"/><path d="M12 22.5 Q12 26 15 26 Q18 26 18 22.5"/></svg>`],
+    sounds:['#FF3B30',`<svg viewBox="0 0 30 30" fill="white"><path d="M7.5 12 L7.5 18 L12 18 L18.5 22.5 L18.5 7.5 L12 12Z"/><path d="M21 11.5 Q24.5 15 21 18.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>`],
+    focus:['#7C3AED',`<svg viewBox="0 0 30 30" fill="white"><path d="M15 5 Q11 9 11 15 Q11 21 15 25 Q19 21 19 15 Q19 9 15 5Z" opacity=".65"/><circle cx="15" cy="15" r="4" fill="white"/></svg>`],
+    general:['#8E8E93',`<svg viewBox="0 0 30 30" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="15" cy="15" r="5"/><line x1="15" y1="4" x2="15" y2="8"/><line x1="15" y1="22" x2="15" y2="26"/><line x1="4" y1="15" x2="8" y2="15"/><line x1="22" y1="15" x2="26" y2="15"/></svg>`],
+    display_b:['#1C1C1E',`<svg viewBox="0 0 30 30" fill="white"><circle cx="15" cy="15" r="6.5"/><g stroke="white" stroke-width="1.8" stroke-linecap="round"><line x1="15" y1="3" x2="15" y2="6.5"/><line x1="15" y1="23.5" x2="15" y2="27"/><line x1="3" y1="15" x2="6.5" y2="15"/><line x1="23.5" y1="15" x2="27" y2="15"/></g></svg>`],
+    access:['#007AFF',`<svg viewBox="0 0 30 30" fill="white"><circle cx="15" cy="7.5" r="3.2"/><path d="M8.5 13.5 Q11.5 12.5 15 12.5 Q18.5 12.5 21.5 13.5 L22.5 21.5 L18.5 21.5 L17.5 26.5 L15 26.5 L12.5 26.5 L11.5 21.5 L7.5 21.5Z"/></svg>`],
+    voiceover:['#1C1C1E',`<svg viewBox="0 0 30 30" fill="none"><circle cx="15" cy="11.5" r="5" stroke="white" stroke-width="2"/><path d="M7 27 Q7 20.5 15 20.5 Q23 20.5 23 27" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>`],
+    zoom:['#1C1C1E',`<svg viewBox="0 0 30 30" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><circle cx="13" cy="13" r="7"/><line x1="18.5" y1="18.5" x2="25" y2="25"/><line x1="10" y1="13" x2="16" y2="13"/><line x1="13" y1="10" x2="13" y2="16"/></svg>`],
+    disptext:['#007AFF',`<svg viewBox="0 0 30 30"><text x="5" y="23" font-size="20" font-weight="700" fill="white" font-family="Arial,sans-serif">Aa</text></svg>`],
+    motion:['#8E8E93',`<svg viewBox="0 0 30 30" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M8 23 Q12 10 15 8 Q18 10 22 23"/><path d="M11 18.5 L15 8 L19 18.5"/></svg>`],
+    audio:['#8E8E93',`<svg viewBox="0 0 30 30" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><line x1="10" y1="9" x2="10" y2="21"/><line x1="14" y1="12" x2="14" y2="18"/><line x1="18" y1="9" x2="18" y2="21"/><line x1="22" y1="12" x2="22" y2="18"/></svg>`],
+    bold:['#1C1C1E',`<svg viewBox="0 0 30 30"><text x="7" y="23" font-size="20" font-weight="900" fill="white" font-family="Arial,sans-serif">B</text></svg>`],
+    larger:['#007AFF',`<svg viewBox="0 0 30 30"><text x="4" y="25" font-size="24" font-weight="700" fill="white" font-family="Arial,sans-serif">A</text></svg>`],
+    shapes:['#007AFF',`<svg viewBox="0 0 30 30" fill="none"><rect x="5" y="5" width="20" height="20" rx="4" stroke="white" stroke-width="2.5"/></svg>`],
+    contrast:['#1C1C1E',`<svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="11" fill="white"/><path d="M15 4 A11 11 0 0 1 15 26 Z" fill="#1C1C1E"/></svg>`],
+  };
+  const[bg,s]=map[type]||map.general;
+  return`<div class="setting-row-icon" style="background:${bg}">${s}</div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+//  TASK DATA  (Easy → Easy → Easy → Hard)
+// ═══════════════════════════════════════════════════════
+const TASKS=[
+  // ── EASY ──
+  {
+    id:'airplane', difficulty:'easy',
+    name:'Turn On Airplane Mode', emoji:'✈️', iconBg:'#DBEAFE',
+    xp:50,
+    learn:{
+      title:'Airplane Mode',
+      plain:'Turns off calls, texts, Wi-Fi, and Bluetooth together.',
+      why:'Airlines ask you to turn it on during flights. It also saves your battery quickly when it\'s running low.',
+    },
+    simSteps:[
+      {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is like the control panel of your iPhone.', hint:'💡 Look for the grey gear ⚙️ icon labeled "Settings".', target:'app-settings', alsoAccept:[], action:'showSettings'},
+      {title:'Turn On Airplane Mode', instruction:'Tap the Airplane Mode row to turn it ON — the switch turns green.', meaning:'The green switch means it\'s ON. Grey means OFF.', hint:'💡 Airplane Mode is the very first row. Tap anywhere on that row.', target:'row-airplane', alsoAccept:['airplane-toggle'], action:'toggleAirplane'},
+    ]
+  },
+  {
+    id:'wifi', difficulty:'easy',
+    name:'Turn On Wi-Fi', emoji:'🛜', iconBg:'#D1FAE5',
+    xp:50,
+    learn:{
+      title:'Wi-Fi',
+      plain:'Connects your phone to the internet without using mobile data.',
+      why:'Use it for faster internet and to save your mobile data.',
+    },
+    simSteps:[
+      {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is the control panel of your iPhone.', hint:'💡 Grey gear ⚙️ icon on the home screen.', target:'app-settings', alsoAccept:[], action:'showSettings'},
+      {title:'Tap Wi-Fi', instruction:'Tap "Wi-Fi" in the Settings list.', meaning:'This opens the Wi-Fi settings page where you can turn it on.', hint:'💡 Wi-Fi is near the top of Settings, just below Airplane Mode.', target:'row-wifi', alsoAccept:[], action:'showWifiDetail'},
+      {title:'Turn On Wi-Fi', instruction:'Tap the Wi-Fi toggle switch to turn it ON — it turns green.', meaning:'Green means Wi-Fi is on and your phone will connect to your home network.', hint:'💡 Tap the switch next to "Wi-Fi" at the top of this page.', target:'wifi-toggle', alsoAccept:['row-wifi-toggle'], action:'toggleWifi'},
+    ]
+  },
+  {
+    id:'bluetooth', difficulty:'easy',
+    name:'Turn On Bluetooth', emoji:'›ᛒ', iconBg:'#EDE9FE',
+    xp:50,
+    learn:{
+      title:'Bluetooth',
+      plain:'Connects your phone to nearby devices (like headphones or speakers).',
+      why:'Use it to listen to music, share files, or connect wireless devices.',
+    },
+    simSteps:[
+      {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is the control panel of your iPhone.', hint:'💡 Grey gear ⚙️ icon on the home screen.', target:'app-settings', alsoAccept:[], action:'showSettings'},
+      {title:'Tap Bluetooth', instruction:'Tap "Bluetooth" in the Settings list.', meaning:'This opens the Bluetooth settings page where you can turn it on.', hint:'💡 Bluetooth is just below Wi-Fi near the top of Settings.', target:'row-bluetooth', alsoAccept:[], action:'showBluetoothDetail'},
+      {title:'Turn On Bluetooth', instruction:'Tap the Bluetooth toggle switch to turn it ON — it turns green.', meaning:'Green means Bluetooth is on and your phone can find nearby wireless devices.', hint:'💡 Tap the switch next to "Bluetooth" at the top of this page.', target:'bluetooth-toggle', alsoAccept:['row-bluetooth-toggle'], action:'toggleBluetooth'},
+    ]
+  },
+  // ── HARD ──
+  {
+    id:'fontsize', difficulty:'hard',
+    name:'Make Text Bigger', emoji:'🔡', iconBg:'#FEF3C7',
+    desc:'Increase the font size so all text is easier to read.',
+    xp:80,
+    learn:{
+      title:'Text Size',
+      plain:'You can make all the text on your phone bigger so it\'s easier to read.',
+      why:'If the words look too small, go to Settings and increase the text size. It affects most apps at once.',
+    },
+    simSteps:[
+      {title:'Open Settings', instruction:'Tap the Settings app.', meaning:'Settings is the control panel.', hint:'💡 Grey gear ⚙️ on the home screen.', target:'app-settings', alsoAccept:[], action:'showSettings'},
+      {title:'Tap Accessibility', instruction:'Scroll down and tap "Accessibility".', meaning:'Accessibility has tools to make your phone easier to use.', hint:'💡 Scroll past Wi-Fi and Bluetooth. Find the blue ♿ icon.', target:'row-accessibility', alsoAccept:[], action:'showAccessibility'},
+      {title:'Tap Display & Text Size', instruction:'Tap "Display & Text Size" in Accessibility.', meaning:'This controls how big text appears across your whole phone.', hint:'💡 It\'s near the top, under the Vision section.', target:'row-display-text', alsoAccept:[], action:'showDisplayText'},
+      {title:'Tap Larger Text', instruction:'Tap "Larger Text" to open the slider.', meaning:'This opens a slider you can drag to choose your text size.', hint:'💡 Look for "Larger Text" with the big A icon.', target:'row-larger-text', alsoAccept:[], action:'showLargerText'},
+      {title:'Drag the Slider Right', instruction:'Drag the slider to the right to make text bigger.', meaning:'More to the right = bigger text. Choose what feels comfortable!', hint:'💡 Grab the round circle on the slider and drag it to the right.', target:'font-slider', alsoAccept:['font-slider-done'], action:'increaseFont'},
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════════════════
+//  GLOBAL STATE
+// ═══════════════════════════════════════════════════════
+const GS={
+  progress:{},
+  totalXP:0, streak:0, diceRolls:0, diceXP:0,
+  trophies:[],
+  lastActivityDate: null,
+  userName: '',
+  sim:{task:null, mode:null, step:0, correct:0, wrong:0, wrongStreak:0, hintUsed:false, airplaneOn:false, fontVal:50},
+  learnTaskId:null,
+  compModule:null, compTaskId:null,
+  searchQuery:'', activeFilter:'all',
+};
+
+// init progress
+TASKS.forEach(t=>{ GS.progress[t.id]={learn:false,practice:{done:false,correct:0,wrong:0},test:{done:false,correct:0,wrong:0}} });
+
+function getModulesDone(taskId){
+  const p=GS.progress[taskId];
+  return (p.learn?1:0)+(p.practice.done?1:0)+(p.test.done?1:0);
+}
+function isTaskFullyDone(taskId){return getModulesDone(taskId)===3}
+function anyTaskFullyDone(){return TASKS.some(t=>isTaskFullyDone(t.id))}
+
+function isTaskUnlocked(idx){
+  if(idx===0) return true;
+  return isTaskFullyDone(TASKS[idx-1].id);
+}
+
+// ═══════════════════════════════════════════════════════
+//  LANDING SCREEN
+// ═══════════════════════════════════════════════════════
+function updateStartBtn(){
+  const val=document.getElementById('nameInput').value.trim();
+  document.getElementById('startBtn').disabled=val.length===0;
+}
+
+
+
+function startLearning(){
+  const raw=document.getElementById('nameInput').value.trim();
+  GS.userName=raw||'';
+  showScreen('homeScreen');
+  renderHome();
+}
+
+function logout(){
+  // Clear name input so they can re-enter
+  document.getElementById('nameInput').value='';
+  document.getElementById('startBtn').disabled=true;
+  GS.userName='';
+  showScreen('landingScreen');
+}
+
+// ═══════════════════════════════════════════════════════
+//  CLOCK
+// ═══════════════════════════════════════════════════════
+function tick(){
+  const n=new Date(),h=n.getHours()%12||12,m=String(n.getMinutes()).padStart(2,'0');
+  const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const t=`${h}:${m}`;
+  const clk=document.getElementById('phoneClock'); if(clk) clk.textContent=t;
+  const bc=document.getElementById('bigClock'); if(bc) bc.textContent=t;
+  const bd=document.getElementById('bigDate'); if(bd) bd.textContent=`${DAYS[n.getDay()]}, ${MONTHS[n.getMonth()]} ${n.getDate()}`;
+}
+setInterval(tick,10000); tick();
+
+// ═══════════════════════════════════════════════════════
+//  DAILY STREAK
+// ═══════════════════════════════════════════════════════
+function todayStr(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function checkDailyStreak(){
+  const today=todayStr();
+  if(GS.lastActivityDate===today) return; // already counted today
+  GS.lastActivityDate=today;
+  GS.streak++;
+  // Update streak display in nav
+  const el=document.getElementById('streakCount');
+  if(el) el.textContent=GS.streak+' 🔥';
+  // Show popup
+  document.getElementById('streakPopupNum').textContent=GS.streak;
+  const sub=GS.streak===1
+    ?'Great start! You made your first day of progress!'
+    :`You've been learning for ${GS.streak} days in a row. Amazing work — keep it up!`;
+  document.getElementById('streakPopupSub').textContent=sub;
+  document.getElementById('streakPopupBg').classList.remove('hidden');
+}
+
+function closeStreakPopup(){
+  document.getElementById('streakPopupBg').classList.add('hidden');
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER HOME
+// ═══════════════════════════════════════════════════════
+function renderHome(){
+  // greeting
+  const nameEl=document.getElementById('greetingName');
+  if(nameEl) nameEl.textContent=GS.userName||'there';
+  // topnav stats
+  document.getElementById('totalXP').textContent=GS.totalXP+' XP';
+  document.getElementById('streakCount').textContent=GS.streak+' 🔥';
+  const doneCnt=TASKS.filter(t=>isTaskFullyDone(t.id)).length;
+  document.getElementById('completedCount').textContent=`${doneCnt}/${TASKS.length}`;
+  document.getElementById('diceXP').textContent=GS.diceXP+' XP earned';
+  document.getElementById('diceRolls').textContent=GS.diceRolls+' rolls';
+
+  // filter + search
+  const q=GS.searchQuery.trim().toLowerCase();
+  const f=GS.activeFilter;
+
+  const filtered=TASKS.filter((task,idx)=>{
+    // difficulty filter
+    if(f==='easy'&&task.difficulty!=='easy') return false;
+    if(f==='medium'&&task.difficulty!=='medium') return false;
+    if(f==='hard'&&task.difficulty!=='hard') return false;
+    if(f==='done'&&!isTaskFullyDone(task.id)) return false;
+    if(f==='inprogress'){
+      const md=getModulesDone(task.id);
+      if(md===0||md===3) return false;
+    }
+    // text search
+    if(q){
+      const hay=[task.name,task.desc,task.difficulty,task.learn.title,task.learn.plain].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  // search result meta
+  const meta=document.getElementById('searchMeta');
+  if(q||f!=='all'){
+    meta.innerHTML=`<span class="result-highlight">${filtered.length}</span> of ${TASKS.length} tasks`;
+  } else {
+    meta.innerHTML='';
+  }
+
+  // render task path
+  const path=document.getElementById('taskPath');
+  path.innerHTML='';
+
+  if(filtered.length===0){
+    path.innerHTML=`
+      <div class="no-results">
+        <span class="no-results-emoji">🔍</span>
+        <div class="no-results-title">No tasks found</div>
+        <div class="no-results-sub">Try a different keyword or filter.<br>e.g. "Wi-Fi", "text", "easy"</div>
+        <button class="no-results-clear" onclick="clearSearch()">Clear Search</button>
+      </div>`;
+    updateDicePanel(); return;
+  }
+
+  let lastDiff='';
+  // When searching/filtering, show all matching without locking by order
+  filtered.forEach((task)=>{
+    const idx=TASKS.indexOf(task);
+    const unlocked=isTaskUnlocked(idx);
+    const p=GS.progress[task.id];
+    const done=isTaskFullyDone(task.id);
+    const modulesDone=getModulesDone(task.id);
+    const xpPct=Math.round((modulesDone/3)*100);
+
+    // difficulty section header (only when not pure text-searching)
+    if(!q && task.difficulty!==lastDiff){
+      lastDiff=task.difficulty;
+      const labels={easy:'Easy',medium:'Medium',hard:'Hard'};
+      path.innerHTML+=`<div class="diff-header"><span class="diff-pill ${task.difficulty}">${labels[task.difficulty]}</span><div class="diff-line"></div></div>`;
+    }
+
+    const statusBadge=done
+      ?`<span class="task-status-badge done">✓ Complete</span>`
+      :(!unlocked?`<span class="task-status-badge locked">🔒 Locked</span>`
+      :(modulesDone>0?`<span class="task-status-badge inprog">${modulesDone}/3 done</span>`:''));
+
+    // highlight matched text in name/desc
+    const taskName=q?highlightText(task.name,q):task.name;
+    const taskDesc=q?highlightText(task.desc,q):task.desc;
+
+    const modules=[
+      {key:'learn', icon:'📚', label:'Learn', done:p.learn, active:unlocked&&!p.learn},
+      {key:'practice', icon:'🎯', label:'Practice', done:p.practice.done, active:unlocked&&p.learn&&!p.practice.done},
+      {key:'test', icon:'⭐', label:'Test', done:p.test.done, active:unlocked&&p.practice.done&&!p.test.done},
+    ];
+
+    const modBtns=modules.map(m=>{
+      const isLocked=!unlocked||(m.key==='practice'&&!p.learn)||(m.key==='test'&&!p.practice.done);
+      let cls='module-btn';
+      if(m.done) cls+=' mod-done';
+      else if(m.active) cls+=' mod-active';
+      else if(isLocked) cls+=' mod-locked';
+      const check=m.done?`<span class="module-checkmark">✓</span>`:'';
+      const lock=isLocked&&!m.done?`<span class="module-lock">🔒</span>`:'';
+      const onclick=(!isLocked&&!m.done)?`onclick="handleModuleClick('${task.id}','${m.key}')"`:
+                    (m.done)?`onclick="handleModuleClick('${task.id}','${m.key}',true)"`:'';
+      return`<button class="${cls}" ${onclick}>${check}${lock}<span class="module-icon">${m.icon}</span><span class="module-label">${m.label}</span></button>`;
+    }).join('');
+
+    path.innerHTML+=`
+      <div class="task-card ${done?'completed':''} ${!unlocked?'locked':''}">
+        <div class="task-card-header">
+          <div class="task-icon-wrap" style="background:${task.iconBg}">
+            <span style="font-size:26px">${task.emoji}</span>
+            ${!unlocked?`<div class="task-lock-badge">🔒</div>`:''}
+          </div>
+          <div class="task-meta">
+            <div class="task-name">${taskName}</div>
+          </div>
+          ${statusBadge}
+        </div>
+        <div class="modules-row">${modBtns}</div>
+        <div class="xp-bar-wrap">
+          <div class="xp-bar-top">
+            <span>${task.xp} XP available</span>
+            <span>${modulesDone}/3 modules</span>
+          </div>
+          <div class="xp-bar-track"><div class="xp-bar-fill" style="width:${xpPct}%"></div></div>
+        </div>
+      </div>`;
+  });
+
+  updateDicePanel();
+}
+
+function updateDicePanel(){
+  const unlocked=anyTaskFullyDone();
+  const btn=document.getElementById('dicePlayBtn');
+  const face=document.getElementById('diceFace');
+  const overlay=document.getElementById('diceLockOverlay');
+  const desc=document.getElementById('diceDesc');
+  const req=document.getElementById('diceReq');
+  if(unlocked){
+    btn.disabled=false; face.classList.remove('locked'); overlay.classList.add('hidden');
+    desc.textContent='You unlocked Challenge Mode! Roll the dice to get a random challenge.';
+    req.classList.add('hidden');
+    document.getElementById('dicePanel').classList.add('just-unlocked');
+  } else {
+    btn.disabled=true; face.classList.add('locked'); overlay.classList.remove('hidden');
+    desc.textContent='Finish all 3 modules of any task to unlock this challenge!';
+    req.classList.remove('hidden');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  SEARCH & FILTER
+// ═══════════════════════════════════════════════════════
+function handleSearch(){
+  const input=document.getElementById('searchInput');
+  GS.searchQuery=input.value;
+  const hasTxt=input.value.length>0;
+  const clear=document.getElementById('searchClear');
+  const kbd=document.getElementById('searchKbd');
+  if(hasTxt){ clear.classList.add('visible'); kbd.classList.add('hide'); }
+  else { clear.classList.remove('visible'); kbd.classList.remove('hide'); }
+  renderHome();
+}
+
+function handleSearchKey(e){
+  if(e.key==='Escape') clearSearch();
+}
+
+function clearSearch(){
+  const input=document.getElementById('searchInput');
+  input.value=''; GS.searchQuery='';
+  document.getElementById('searchClear').classList.remove('visible');
+  document.getElementById('searchKbd').classList.remove('hide');
+  GS.activeFilter='all';
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active-chip'));
+  document.querySelector('[data-filter="all"]').classList.add('active-chip');
+  document.getElementById('searchMeta').innerHTML='';
+  renderHome();
+  input.focus();
+}
+
+function setFilter(f){
+  GS.activeFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(c=>{
+    c.classList.toggle('active-chip', c.dataset.filter===f);
+  });
+  renderHome();
+}
+
+function highlightText(text, query){
+  if(!query) return text;
+  const re=new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re,'<mark class="search-match">$1</mark>');
+}
+
+// Keyboard shortcut: press "/" to focus search
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){
+    e.preventDefault();
+    document.getElementById('searchInput')?.focus();
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+//  MODULE CLICK
+// ═══════════════════════════════════════════════════════
+function handleModuleClick(taskId, moduleKey, replay=false){
+  const task=TASKS.find(t=>t.id===taskId); if(!task) return;
+  if(moduleKey==='learn'){
+    openLearnModal(task);
+  } else {
+    startSim(task, moduleKey);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  LEARN MODAL
+// ═══════════════════════════════════════════════════════
+function openLearnModal(task){
+  GS.learnTaskId=task.id;
+  document.getElementById('lmEmoji').textContent=task.emoji;
+  document.getElementById('lmTag').textContent='📚 ' + task.name;
+  document.getElementById('lmTitle').textContent=task.learn.title;
+  document.getElementById('lmPlain').textContent=task.learn.plain;
+  document.getElementById('lmWhy').textContent=task.learn.why;
+  document.getElementById('learnModalBg').classList.remove('hidden');
+}
+
+function closeLearnModal(e){
+  if(e && e.target !== document.getElementById('learnModalBg')) return;
+  document.getElementById('learnModalBg').classList.add('hidden');
+}
+
+function completedLearn(){
+  const p=GS.progress[GS.learnTaskId];
+  if(!p.learn){
+    p.learn=true;
+    GS.totalXP+=10;
+    checkDailyStreak();
+    showToast('📚 +10 XP — Learn complete!','info');
+  }
+  document.getElementById('learnModalBg').classList.add('hidden');
+  renderHome();
+}
+
+// ═══════════════════════════════════════════════════════
+//  SIMULATOR
+// ═══════════════════════════════════════════════════════
+function startSim(task, mode){
+  const sim=GS.sim;
+  Object.assign(sim,{task,mode,step:0,correct:0,wrong:0,wrongStreak:0,hintUsed:false,airplaneOn:false,wifiOn:false,bluetoothOn:false,fontVal:50});
+  document.getElementById('simTaskName').textContent=task.name;
+  const badge=document.getElementById('simModeBadge');
+  badge.textContent=mode==='practice'?'📖 Practice':'⭐ Test';
+  badge.className='sim-mode-badge '+mode;
+  document.getElementById('simScoreDisplay').textContent='';
+  // Set layout class
+  const body=document.getElementById('simBody');
+  body.classList.toggle('practice-layout', mode==='practice');
+  showScreen('simScreen');
+  requestAnimationFrame(()=>{
+    sizePhone();
+    buildIphoneHome(); buildSettings(); buildAccessibility(); buildDisplayText();
+    showView('iphoneHome');
+    renderBelowPhone();
+  });
+}
+
+function sizePhone(){
+  const topbar=document.querySelector('.sim-topbar');
+  const tbH=topbar?topbar.offsetHeight:56;
+  const vH=window.innerHeight;
+  const vW=window.innerWidth;
+  const mode=GS.sim.mode;
+
+  let phoneH, phoneW;
+
+  if(mode==='practice'){
+    // row layout: phone + 280px steps panel + 28px gap + 64px horizontal padding
+    const sidePanelW=280, gap=28, hPad=64;
+    const availW=vW - sidePanelW - gap - hPad;
+    const availH=vH - tbH - 36;
+    phoneH=Math.min(availH, Math.round(availW*(510/252)), 520);
+    phoneW=Math.round(phoneH*(252/510));
+  } else {
+    // test: phone centred, full height available
+    const availH=vH - tbH - 36;
+    phoneH=Math.min(availH, 520);
+    phoneW=Math.round(phoneH*(252/510));
+  }
+
+  const shell=document.getElementById('phoneShell');
+  const screen=document.getElementById('phoneScreen');
+  if(shell) shell.style.width=(phoneW+18)+'px';
+  if(screen) screen.style.height=phoneH+'px';
+}
+
+function exitSim(){
+  showScreen('homeScreen');
+  renderHome();
+}
+
+// ─── iphone home ─────────────────────────────────────
+const APPS=[
+  {id:'app-phone',k:'phone',l:'Phone'},{id:'app-messages',k:'messages',l:'Messages'},
+  {id:'app-mail',k:'mail',l:'Mail'},{id:'app-safari',k:'safari',l:'Safari'},
+  {id:'app-music',k:'music',l:'Music'},{id:'app-photos',k:'photos',l:'Photos'},
+  {id:'app-camera',k:'camera',l:'Camera'},{id:'app-clock',k:'clock',l:'Clock'},
+  {id:'app-maps',k:'maps',l:'Maps'},{id:'app-wallet',k:'wallet',l:'Wallet'},
+  {id:'app-facetime',k:'facetime',l:'FaceTime'},{id:'app-settings',k:'settings',l:'Settings'},
+];
+const DOCK=[{id:'dk-phone',k:'phone'},{id:'dk-safari',k:'safari'},{id:'dk-messages',k:'messages'},{id:'dk-music',k:'music'}];
+
+function buildIphoneHome(){
+  const g=document.getElementById('appGrid'); g.innerHTML='';
+  APPS.forEach(a=>{ const d=document.createElement('div'); d.className='app-icon'; d.id=a.id; d.innerHTML=`<div class="app-icon-img">${APP_ICONS[a.k]||''}</div><span class="app-label">${a.l}</span>`; d.onclick=()=>tap(a.id); g.appendChild(d); });
+  const dk=document.getElementById('dockGrid'); dk.innerHTML='';
+  DOCK.forEach(a=>{ const d=document.createElement('div'); d.className='app-icon'; d.id=a.id; d.innerHTML=`<div class="app-icon-img">${APP_ICONS[a.k]||''}</div>`; d.onclick=()=>tap(a.id); dk.appendChild(d); });
+}
+
+function buildSettings(){
+  const sim=GS.sim;
+  document.getElementById('settingsContent').innerHTML=`
+    <div class="settings-group"><div class="settings-section">
+      <div class="setting-row" id="row-airplane" onclick="tap('row-airplane')">${sIcon('airplane')}<div class="setting-row-text"><div class="setting-row-title">Airplane Mode</div></div><div class="setting-row-right"><div class="ios-toggle${sim.airplaneOn?' on':''}" id="airplane-toggle" onclick="event.stopPropagation();tap('airplane-toggle')"></div></div></div>
+      <div class="setting-row" id="row-wifi" onclick="tap('row-wifi')">${sIcon('wifi')}<div class="setting-row-text"><div class="setting-row-title">Wi-Fi</div></div><div class="setting-row-right"><span style="font-size:12px;color:#8E8E93">${sim.airplaneOn?'Off':'Home Network'}</span><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-bluetooth" onclick="tap('row-bluetooth')">${sIcon('bluetooth')}<div class="setting-row-text"><div class="setting-row-title">Bluetooth</div></div><div class="setting-row-right"><span style="font-size:12px;color:#8E8E93">On</span><span class="chevron">›</span></div></div>
+    </div></div>
+    <div class="settings-group" style="margin-top:22px"><div class="settings-section">
+      <div class="setting-row" id="row-notifications" onclick="tap('row-notifications')">${sIcon('notif')}<div class="setting-row-text"><div class="setting-row-title">Notifications</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-sounds" onclick="tap('row-sounds')">${sIcon('sounds')}<div class="setting-row-text"><div class="setting-row-title">Sounds & Haptics</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-focus" onclick="tap('row-focus')">${sIcon('focus')}<div class="setting-row-text"><div class="setting-row-title">Focus</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+    </div></div>
+    <div class="settings-group" style="margin-top:22px"><div class="settings-section">
+      <div class="setting-row" id="row-general" onclick="tap('row-general')">${sIcon('general')}<div class="setting-row-text"><div class="setting-row-title">General</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-display-brightness" onclick="tap('row-display-brightness')">${sIcon('display_b')}<div class="setting-row-text"><div class="setting-row-title">Display & Brightness</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-accessibility" onclick="tap('row-accessibility')">${sIcon('access')}<div class="setting-row-text"><div class="setting-row-title">Accessibility</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+    </div></div>
+    <div style="height:24px"></div>`;
+}
+
+function buildAccessibility(){
+  document.getElementById('accessibilityContent').innerHTML=`
+    <div class="settings-group"><div class="settings-section-label">VISION</div><div class="settings-section">
+      <div class="setting-row" id="row-voiceover" onclick="tap('row-voiceover')">${sIcon('voiceover')}<div class="setting-row-text"><div class="setting-row-title">VoiceOver</div><div class="setting-row-sub">Off</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-zoom" onclick="tap('row-zoom')">${sIcon('zoom')}<div class="setting-row-text"><div class="setting-row-title">Zoom</div><div class="setting-row-sub">Off</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-display-text" onclick="tap('row-display-text')">${sIcon('disptext')}<div class="setting-row-text"><div class="setting-row-title">Display & Text Size</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-motion" onclick="tap('row-motion')">${sIcon('motion')}<div class="setting-row-text"><div class="setting-row-title">Motion</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+    </div></div><div style="height:22px"></div>`;
+}
+
+function buildDisplayText(){
+  document.getElementById('displayContent').innerHTML=`
+    <div class="settings-group"><div class="settings-section">
+      <div class="setting-row" id="row-bold" onclick="tap('row-bold')">${sIcon('bold')}<div class="setting-row-text"><div class="setting-row-title">Bold Text</div></div><div class="setting-row-right"><div class="ios-toggle"></div></div></div>
+      <div class="setting-row" id="row-larger-text" onclick="tap('row-larger-text')">${sIcon('larger')}<div class="setting-row-text"><div class="setting-row-title">Larger Text</div></div><div class="setting-row-right"><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-button-shapes" onclick="tap('row-button-shapes')">${sIcon('shapes')}<div class="setting-row-text"><div class="setting-row-title">Button Shapes</div></div><div class="setting-row-right"><div class="ios-toggle"></div></div></div>
+      <div class="setting-row" id="row-contrast" onclick="tap('row-contrast')">${sIcon('contrast')}<div class="setting-row-text"><div class="setting-row-title">Increase Contrast</div></div><div class="setting-row-right"><div class="ios-toggle"></div></div></div>
+    </div></div><div style="height:22px"></div>`;
+}
+
+function buildLargerText(){
+  const pct=GS.sim.fontVal, fs=Math.round(12+pct*0.18);
+  document.getElementById('displayContent').innerHTML=`
+    <div style="padding:12px 14px 6px;color:#8E8E93;font-size:12px;text-align:center;">Drag the slider to adjust font size.</div>
+    <div class="settings-group"><div class="settings-section" style="padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px;"><span style="font-size:11px;color:#8E8E93;">A</span><span style="font-size:18px;font-weight:700;color:#8E8E93;">A</span></div>
+      <input type="range" class="font-slider" id="font-slider" min="0" max="100" value="${pct}" oninput="sliderInput(this.value)" onmouseup="sliderDone(this.value)" ontouchend="sliderDone(this.value)">
+      <div id="sampleTextPreview" style="text-align:center;font-size:${fs}px;margin-top:12px;line-height:1.5;color:#000;">The quick brown fox</div>
+      <div style="text-align:center;font-size:11px;color:#8E8E93;margin-top:3px;">Size: ${fs}pt</div>
+    </div></div>`;
+  setSliderBg(pct);
+}
+function sliderInput(v){ GS.sim.fontVal=+v; setSliderBg(v); const fs=Math.round(12+v*0.18); const el=document.getElementById('sampleTextPreview'); if(el){el.style.fontSize=fs+'px';el.nextElementSibling.textContent=`Size: ${fs}pt`;} }
+function sliderDone(v){ if(+v>=65) tap('font-slider-done'); }
+function setSliderBg(v){ const s=document.getElementById('font-slider'); if(s) s.style.background=`linear-gradient(to right,#007AFF ${v}%,#E5E5EA ${v}%)`; }
+
+function showView(id){
+  ['iphoneHome','iphoneSettings','iphoneAccessibility','iphoneDisplayText','iphoneWifi','iphoneWifiDetail','iphoneBluetoothDetail'].forEach(v=>document.getElementById(v).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  const dark=['iphoneSettings','iphoneAccessibility','iphoneDisplayText','iphoneWifi','iphoneWifiDetail','iphoneBluetoothDetail'];
+  document.getElementById('phoneClock').style.color=dark.includes(id)?'#000':'#fff';
+}
+
+// ─── SIDE/BELOW PANEL ────────────────────────────────
+function renderBelowPhone(){
+  const {task,step,mode}=GS.sim;
+  const st=task.simSteps[step];
+  const panel=document.getElementById('simBelowPhone');
+
+  if(mode==='test'){
+    // No side panel in test mode — just hide it
+    panel.className='';
+    panel.innerHTML='';
+    panel.style.cssText='display:none';
+  } else {
+    // Practice: steps panel on the right
+    panel.className='practice-steps-panel';
+    panel.style.cssText='';
+    const stepRows=task.simSteps.map((s,i)=>{
+      const isCurrent=i===step;
+      const isDone=i<step;
+      return`<div style="
+        display:flex;align-items:flex-start;gap:12px;
+        padding:12px 14px;border-radius:10px;
+        background:${isCurrent?'#EBF5FF':isDone?'#F3FFF0':'#fff'};
+        border:2px solid ${isCurrent?'#4A90D9':isDone?'#58CC02':'#E2E8E0'};
+        opacity:${isDone?0.6:1};
+      ">
+        <div style="
+          width:30px;height:26px;border-radius:50%;flex-shrink:0;margin-top:1px;
+          background:${isCurrent?'#4A90D9':isDone?'#58CC02':'#E2E8E0'};
+          color:${isCurrent||isDone?'#fff':'#6B7280'};
+          font-size:16px;font-weight:800;
+          display:flex;align-items:center;justify-content:center;
+        ">${isDone?'✓':i+1}</div>
+        <div>
+          <div style="font-size:16px;font-weight:800;color:${isCurrent?'#1A1A2E':'#6B7280'};margin-bottom:${isCurrent?'2px':'0'}">${s.title}</div>
+          ${isCurrent?`<div style="font-size:16px;color:#4A90D9;font-weight:600;line-height:1.5;margin-top:2px">${s.instruction}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+    panel.innerHTML=`
+      <div style="font-size:12px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Steps</div>
+      ${stepRows}`;
+  }
+}
+
+const PRACTICE_WRONG=[
+  {emoji:'🙂', msg:"Not quite! Try following the instruction in the steps below, it will guide you."},
+  {emoji:'😊', msg:"Oops, almost! Take a look at the step that's highlighted, it points you in the right direction!"},
+  {emoji:'🌟', msg:"You're learning! Check the highlighted step below and give it another try. You've got this!"},
+  {emoji:'💪', msg:"Keep going! The steps below are your guide. Just follow them one by one."},
+];
+const TEST_WRONG=[
+  {emoji:'🙂', msg:"Not quite! You'll get it. Try again!"},
+  {emoji:'😊', msg:"Almost there! Stay calm and think about the next step."},
+  {emoji:'💛', msg:"You're doing fine! Take your time. There's no rush."},
+];
+
+function showWrongBanner(mode, wrongStreak){
+  document.querySelectorAll('.wrong-banner').forEach(b=>b.remove());
+  const pool=mode==='practice'?PRACTICE_WRONG:TEST_WRONG;
+  const idx=Math.min(wrongStreak-1, pool.length-1);
+  const {emoji,msg}=pool[idx];
+
+  // 3 consecutive wrong in test → show practice prompt popup instead of banner
+  if(mode==='test' && wrongStreak>=3){
+    document.querySelectorAll('.wrong-banner').forEach(b=>b.remove());
+    document.getElementById('practicePromptBg').classList.remove('hidden');
+    return;
+  }
+
+  const b=document.createElement('div');
+  b.className='wrong-banner';
+  b.innerHTML=`<span class="wb-emoji">${emoji}</span>${msg}`;
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(),4000);
+}
+
+function closePracticePrompt(action){
+  document.getElementById('practicePromptBg').classList.add('hidden');
+  if(action==='practice'){
+    const task=GS.sim.task;
+    if(task) startSim(task,'practice');
+  } else {
+    exitSim();
+  }
+}
+
+function switchToPractice(){
+  document.querySelectorAll('.wrong-banner').forEach(b=>b.remove());
+  const task=GS.sim.task;
+  if(task) startSim(task,'practice');
+}
+
+// ─── TAP ─────────────────────────────────────────────
+function tap(id){
+  const sim=GS.sim; if(!sim.task) return;
+  const st=sim.task.simSteps[sim.step];
+  const accepted=[st.target,...(st.alsoAccept||[])];
+  const ok=accepted.includes(id);
+  if(ok){
+    sim.correct++;
+    sim.wrongStreak=0;
+    tapFeedback(id,true);
+    doAction(st.action);
+    setTimeout(()=>{
+      sim.step++;
+      if(sim.step>=sim.task.simSteps.length) finishSim();
+      else renderBelowPhone();
+    },sim.mode==='practice'?650:400);
+  } else {
+    const meaningful=id.startsWith('app-')||id.startsWith('row-')||id.startsWith('dk-')||id==='airplane-toggle';
+    if(meaningful){
+      sim.wrong++;
+      sim.wrongStreak++;
+      tapFeedback(id,false);
+      showWrongBanner(sim.mode, sim.wrongStreak);
+    }
+  }
+}
+
+function buildWifiDetail(){
+  const on=GS.sim.wifiOn||false;
+  document.getElementById('wifiDetailContent').innerHTML=`
+    <div class="settings-group">
+      <div class="settings-section">
+        <div class="setting-row" id="row-wifi-toggle" onclick="tap('wifi-toggle')">
+          <div class="setting-row-text"><div class="setting-row-title" style="font-size:16px">Wi-Fi</div></div>
+          <div class="setting-row-right">
+            <div class="ios-toggle${on?' on':''}" id="wifi-toggle" onclick="event.stopPropagation();tap('wifi-toggle')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ${on?`
+    <div class="settings-group" style="margin-top:18px">
+      <div class="settings-section-label">MY NETWORKS</div>
+      <div class="settings-section">
+        <div class="setting-row" style="cursor:default">
+          <div class="setting-row-text">
+            <div class="setting-row-title" style="color:#007AFF">✓  Home Network</div>
+          </div>
+          <div class="setting-row-right">
+            <svg width="14" height="14" viewBox="0 0 18 14" fill="none"><path d="M1 7 C4 3 14 3 17 7" stroke="#8E8E93" stroke-width="1.8" stroke-linecap="round"/><path d="M3.5 9.5 C5.5 7.5 12.5 7.5 14.5 9.5" stroke="#8E8E93" stroke-width="1.8" stroke-linecap="round"/><path d="M6.5 12 C7.5 11 10.5 11 11.5 12" stroke="#8E8E93" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="14" r="1.2" fill="#8E8E93"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#007AFF" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="12" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="#007AFF"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>`:``}
+    <div style="height:24px"></div>`;
+}
+
+function buildBluetoothDetail(){
+  const on=GS.sim.bluetoothOn||false;
+  document.getElementById('bluetoothDetailContent').innerHTML=`
+    <div class="settings-group">
+      <div class="settings-section">
+        <div class="setting-row" id="row-bluetooth-toggle" onclick="tap('bluetooth-toggle')">
+          <div class="setting-row-text"><div class="setting-row-title" style="font-size:16px">Bluetooth</div></div>
+          <div class="setting-row-right">
+            <div class="ios-toggle${on?' on':''}" id="bluetooth-toggle" onclick="event.stopPropagation();tap('bluetooth-toggle')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ${on?`
+    <div style="padding:10px 16px 0;font-size:12px;color:#8E8E93;line-height:1.5">
+      Now discoverable as "My iPhone" while Bluetooth Settings is open.
+    </div>
+    <div class="settings-group" style="margin-top:14px">
+      <div class="settings-section-label">MY DEVICES</div>
+      <div class="settings-section">
+        <div class="setting-row" style="cursor:default">
+          <div class="setting-row-text"><div class="setting-row-title">AirPods</div></div>
+          <div class="setting-row-right"><span style="font-size:12px;color:#8E8E93">Not Connected</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#007AFF" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="12" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="#007AFF"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>`:``}
+    <div style="height:24px"></div>`;
+}
+
+function doAction(action){
+  const sim=GS.sim;
+  switch(action){
+    case 'showSettings':     buildSettings(); showView('iphoneSettings'); break;
+    case 'showAccessibility': buildAccessibility(); showView('iphoneAccessibility'); break;
+    case 'showDisplayText':  buildDisplayText(); showView('iphoneDisplayText'); break;
+    case 'showLargerText':   buildLargerText(); break;
+    case 'increaseFont':     break;
+    case 'toggleAirplane':
+      sim.airplaneOn=!sim.airplaneOn; buildSettings(); showView('iphoneSettings'); break;
+    case 'showWifiDetail':
+      buildWifiDetail(); showView('iphoneWifiDetail'); break;
+    case 'toggleWifi':
+      sim.wifiOn=true; buildWifiDetail(); showView('iphoneWifiDetail'); break;
+    case 'showBluetoothDetail':
+      buildBluetoothDetail(); showView('iphoneBluetoothDetail'); break;
+    case 'toggleBluetooth':
+      sim.bluetoothOn=true; buildBluetoothDetail(); showView('iphoneBluetoothDetail'); break;
+    case 'showWifi':
+      sim.airplaneOn?showView('iphoneWifi'):showToast('📶 Connected to Home Network','info'); break;
+  }
+}
+
+function tapFeedback(elId,ok){
+  const el=document.getElementById(elId); if(!el) return;
+  const pr=document.getElementById('phoneScreen').getBoundingClientRect();
+  const er=el.getBoundingClientRect();
+  const fb=document.createElement('div');
+  fb.className='tap-feedback '+(ok?'correct':'wrong');
+  fb.style.left=(er.left-pr.left+er.width/2)+'px';
+  fb.style.top=(er.top-pr.top+er.height/2)+'px';
+  document.getElementById('phoneScreen').appendChild(fb);
+  setTimeout(()=>fb.remove(),600);
+}
+
+// TROPHY LABEL MAP
+const TROPHY_LABELS={
+  airplane:'Airplane Mode Master',
+  wifi:'Wi-Fi Pro',
+  bluetooth:'Bluetooth Expert',
+  fontsize:'Accessibility Champion',
+};
+function getTrophyLabel(taskId){ return TROPHY_LABELS[taskId]||'Settings Expert'; }
+
+function finishSim(){
+  const sim=GS.sim;
+  const{task,mode,correct,wrong}=sim;
+  document.querySelectorAll('.wrong-banner').forEach(b=>b.remove());
+
+  let xp=0;
+  if(mode==='practice'){
+    xp=Math.round(task.xp*0.4);
+    GS.progress[task.id].practice={done:true,correct,wrong};
+    GS.totalXP+=xp;
+    checkDailyStreak();
+    // Practice complete — simple modal
+    GS.compTaskId=task.id;
+    const emoji=wrong===0?'🌟':'👏';
+    const title=wrong===0?'Perfect! Well done!':'Great job!';
+    const sub=wrong===0
+      ?'You got every step right. Ready for the test?'
+      :'You finished practice. Ready to try the test?';
+    document.getElementById('practiceCompEmoji').textContent=emoji;
+    document.getElementById('practiceCompTitle').textContent=title;
+    document.getElementById('practiceCompSub').textContent=sub;
+    document.getElementById('practiceCompXP').textContent='+'+xp+' XP';
+    document.getElementById('practiceCompBg').classList.remove('hidden');
+  } else {
+    // Test mode — trophy modal
+    xp=Math.round(task.xp*0.6);
+    GS.progress[task.id].test={done:true,correct,wrong};
+    GS.totalXP+=xp;
+    checkDailyStreak();
+    // Only add ONE trophy per task (dedup by taskId)
+    const alreadyHas=GS.trophies.some(t=>t.taskId===task.id);
+    if(!alreadyHas){
+      GS.trophies.push({taskId:task.id, taskName:task.name, emoji:task.emoji, label:getTrophyLabel(task.id), xp, date:new Date().toLocaleDateString()});
+    }
+    GS.compTaskId=task.id;
+    document.getElementById('compTrophyIcon').textContent='🏆';
+    document.getElementById('compTitle').textContent='You earned a Trophy!';
+    document.getElementById('compSub').textContent=`"${getTrophyLabel(task.id)}" — ${task.name}`;
+    document.getElementById('compPts').textContent='+'+xp+' XP';
+    // launch confetti
+    launchConfetti();
+    document.getElementById('compModalBg').classList.remove('hidden');
+  }
+}
+
+function closePracticeComp(goToTest){
+  document.getElementById('practiceCompBg').classList.add('hidden');
+  showScreen('homeScreen');
+  renderHome();
+  if(goToTest && GS.compTaskId){
+    const t=TASKS.find(t=>t.id===GS.compTaskId);
+    if(t) setTimeout(()=>startSim(t,'test'),200);
+  }
+}
+
+function closeCompModal(){
+  document.getElementById('compModalBg').classList.add('hidden');
+  showScreen('homeScreen');
+  renderHome();
+}
+
+// ─── CONFETTI ─────────────────────────────────────────
+function launchConfetti(){
+  const colors=['#FFD700','#58CC02','#4A90D9','#FF9600','#A560E8','#FF4B4B'];
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    const size=6+Math.random()*8;
+    el.style.cssText=`
+      position:fixed;z-index:9998;pointer-events:none;
+      width:${size}px;height:${size}px;
+      background:${color};border-radius:${Math.random()>0.5?'50%':'2px'};
+      left:${20+Math.random()*60}%;top:-10px;
+      animation:confettiFall ${1.5+Math.random()*2}s ease-in ${Math.random()*0.8}s forwards;
+    `;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4000);
+  }
+}
+
+function shareTrophy(platform){
+  const last=GS.trophies[GS.trophies.length-1];
+  if(!last) return;
+  const text=`🏆 I just earned the "${last.label}" trophy on ____ App! Learning my iPhone one step at a time. Yeee`;
+  if(platform==='twitter'){
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,'_blank');
+  } else {
+    navigator.clipboard?.writeText(text).then(()=>showToast('📋 Copied!','info'));
+  }
+}
+// ─── TROPHY SHELF ─────────────────────────────────────
+function renderTrophyShelf(){
+  const shelf=document.getElementById('trophyShelf');
+  if(!shelf) return;
+  shelf.style.display='block'; // always visible
+
+  if(GS.trophies.length===0){
+    shelf.innerHTML=`
+      <div class="trophy-shelf-wrap">
+        <div class="trophy-shelf-header" style="cursor:default;opacity:.8">
+          <span class="trophy-shelf-header-icon">🏆</span>
+          <div class="trophy-shelf-header-text">
+            <div class="trophy-shelf-header-title">Your Trophy Shelf</div>
+            <div class="trophy-shelf-header-sub">Complete a task test to earn your first trophy!</div>
+          </div>
+          <span class="trophy-count-badge" style="background:#E5E7EB;color:#9CA3AF">0</span>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const cards=GS.trophies.map(t=>`
+    <div class="trophy-card">
+      <div class="trophy-card-visual">
+        <span class="trophy-card-shine">✨</span>
+        <span class="trophy-card-medal">🏆</span>
+        <span style="font-size:28px">${t.emoji}</span>
+      </div>
+      <div class="trophy-card-body">
+        <div class="trophy-card-title">${t.taskName}</div>
+        <div class="trophy-card-label">${t.label}</div>
+        <div class="trophy-card-date">Earned ${t.date}</div>
+      </div>
+    </div>`).join('');
+  shelf.innerHTML=`
+    <div class="trophy-shelf-wrap">
+      <div class="trophy-shelf-header" onclick="toggleTrophyItems()">
+        <span class="trophy-shelf-header-icon">🏆</span>
+        <div class="trophy-shelf-header-text">
+          <div class="trophy-shelf-header-title">Your Trophy Shelf</div>
+          <div class="trophy-shelf-header-sub">Tap to see what you've earned</div>
+        </div>
+        <span class="trophy-count-badge">${GS.trophies.length}</span>
+        <button class="trophy-shelf-toggle" id="trophyToggleBtn" onclick="event.stopPropagation();toggleTrophyItems()">Show ▼</button>
+      </div>
+      <div class="trophy-cards-grid hidden" id="trophyItems">${cards}</div>
+    </div>`;
+}
+
+function toggleTrophyItems(){
+  const el=document.getElementById('trophyItems');
+  const btn=document.getElementById('trophyToggleBtn');
+  if(el){ 
+    el.classList.toggle('hidden');
+    if(btn) btn.textContent=el.classList.contains('hidden')?'Show ▼':'Hide ▲';
+  }
+}
+
+function toggleTrophyItems(){
+  const el=document.getElementById('trophyItems');
+  const btn=document.getElementById('trophyToggleBtn');
+  if(el){ 
+    el.classList.toggle('hidden');
+    if(btn) btn.textContent=el.classList.contains('hidden')?'Show ▼':'Hide ▲';
+  }
+}
+
+// ─── back buttons ─────────────────────────────────────
+document.getElementById('accessibilityBack').onclick=()=>{buildSettings();showView('iphoneSettings')};
+document.getElementById('displayBack').onclick=()=>{buildAccessibility();showView('iphoneAccessibility')};
+document.getElementById('wifiBack').onclick=()=>{buildSettings();showView('iphoneSettings')};
+document.getElementById('wifiDetailBack').onclick=()=>{buildSettings();showView('iphoneSettings')};
+document.getElementById('bluetoothDetailBack').onclick=()=>{buildSettings();showView('iphoneSettings')};
+
+// resize phone on window resize
+window.addEventListener('resize',()=>{ if(document.getElementById('simScreen').classList.contains('active')) sizePhone(); });
+
+// ═══════════════════════════════════════════════════════
+//  DICE
+// ═══════════════════════════════════════════════════════
+function handleDiceClick(){
+  if(!anyTaskFullyDone()) showToast('🔒 Complete a task first!','wrong');
+}
+function handleDicePlay(){
+  if(!anyTaskFullyDone()) return;
+  GS.diceRolls++; GS.diceXP+=15; GS.totalXP+=15;
+  showToast('🎲 Rolling… (game coming soon!)','info');
+  renderHome();
+}
+
+// ═══════════════════════════════════════════════════════
+//  SCREENS
+// ═══════════════════════════════════════════════════════
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════════
+function showToast(msg,type){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');
+  t.className=`toast ${type}`; t.textContent=msg;
+  c.appendChild(t); setTimeout(()=>t.remove(),2700);
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER HOME (patched to also render trophy shelf)
+// ═══════════════════════════════════════════════════════
+const _origRenderHome=renderHome;
+window.renderHome=function(){
+  _origRenderHome();
+  renderTrophyShelf();
+};
+
+// ═══════════════════════════════════════════════════════
+//  INIT — show landing screen first
+// ═══════════════════════════════════════════════════════
+// Landing screen is already .active from HTML
+// renderHome is called when user presses Start
+</script>
+</body>
+</html>
