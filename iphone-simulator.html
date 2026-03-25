@@ -1348,11 +1348,11 @@ const TASKS=[
     learn:{
       title:'Airplane Mode',
       plain:'Turns off calls, texts, Wi-Fi, and Bluetooth together.',
-      why:'Airlines ask you to turn it on during flights. It also saves your battery quickly when it\'s running low.',
+      why:'Airlines ask you to turn it on during flights. It also saves your battery when it\'s running low.',
     },
     simSteps:[
       {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is like the control panel of your iPhone.', hint:'💡 Look for the grey gear ⚙️ icon labeled "Settings".', target:'app-settings', alsoAccept:[], action:'showSettings'},
-      {title:'Turn On Airplane Mode', instruction:'Tap the toggle next to Airplane Mode.\nIt will turn green — that means it\'s ON.', meaning:'The green switch means it\'s ON. Grey means OFF.', hint:'💡 Airplane Mode is the very first row. Tap anywhere on that row.', target:'airplane-toggle', alsoAccept:[], action:'toggleAirplane'},
+      {title:'Turn On Airplane Mode', instruction:'Tap the white circle next to the word "Airplane Mode"\nIt will turn green, like a switch — that means it\'s ON.', meaning:'The green switch means it\'s ON. Grey means OFF.', hint:'💡 Airplane Mode is the very first row. Tap anywhere on that row.', target:'airplane-toggle', alsoAccept:[], action:'toggleAirplane'},
     ]
   },
   {
@@ -1362,12 +1362,12 @@ const TASKS=[
     learn:{
       title:'Wi-Fi',
       plain:'Connects your phone to the internet without using mobile data.',
-      why:'Use it for faster internet and to save your mobile data.',
+      why:'Use it at home for faster internet and to save your mobile data.',
     },
     simSteps:[
       {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is the control panel of your iPhone.', hint:'💡 Grey gear ⚙️ icon on the home screen.', target:'app-settings', alsoAccept:[], action:'showSettings'},
       {title:'Tap Wi-Fi', instruction:'Tap "Wi-Fi" in the Settings list.', meaning:'This opens the Wi-Fi settings page where you can turn it on.', hint:'💡 Wi-Fi is near the top of Settings, just below Airplane Mode.', target:'row-wifi', alsoAccept:[], action:'showWifiDetail'},
-      {title:'Turn On Wi-Fi', instruction:'Tap the toggle next to Wi-Fi.\nIt will turn green — that means it\'s ON.', meaning:'Green means Wi-Fi is on and your phone will connect to your home network.', hint:'💡 Tap the switch next to "Wi-Fi" at the top of this page.', target:'wifi-toggle', action:'toggleWifi'},
+      {title:'Turn On Wi-Fi', instruction:'Tap the white circle next to the word "Wi-Fi".\nIt will turn green, like a switch — that means it\'s ON.', meaning:'Green means Wi-Fi is on and your phone will connect to your home network.', hint:'💡 Tap the switch next to "Wi-Fi" at the top of this page.', target:'wifi-toggle', action:'toggleWifi'},
     ]
   },
   {
@@ -1382,7 +1382,7 @@ const TASKS=[
     simSteps:[
       {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is the control panel of your iPhone.', hint:'💡 Grey gear ⚙️ icon on the home screen.', target:'app-settings', alsoAccept:[], action:'showSettings'},
       {title:'Tap Bluetooth', instruction:'Tap "Bluetooth" in the Settings list.', meaning:'This opens the Bluetooth settings page where you can turn it on.', hint:'💡 Bluetooth is just below Wi-Fi near the top of Settings.', target:'row-bluetooth', alsoAccept:[], action:'showBluetoothDetail'},
-      {title:'Turn On Bluetooth', instruction:'Tap the toggle next to Bluetooth.\nIt will turn green — that means it\'s ON.', meaning:'Green means Bluetooth is on and your phone can find nearby wireless devices.', hint:'💡 Tap the switch next to "Bluetooth" at the top of this page.', target:'bluetooth-toggle', alsoAccept:[], action:'toggleBluetooth'},
+      {title:'Turn On Bluetooth', instruction:'Tap the white circle next to the word "Bluetooth".\nIt will turn green, like a switch — that means it\'s ON.', meaning:'Green means Bluetooth is on and your phone can find nearby wireless devices.', hint:'💡 Tap the switch next to "Bluetooth" at the top of this page.', target:'bluetooth-toggle', alsoAccept:[], action:'toggleBluetooth'},
     ]
   },
   // ── HARD ──
@@ -1398,8 +1398,8 @@ const TASKS=[
     },
     simSteps:[
       {title:'Open Settings', instruction:'Tap the Settings app.', meaning:'Settings is the control panel.', hint:'💡 Grey gear ⚙️ on the home screen.', target:'app-settings', alsoAccept:[], action:'showSettings'},
-      {title:'Tap Accessibility', instruction:'Scroll down and tap "Accessibility".', meaning:'Accessibility has tools to make your phone easier to use.', hint:'💡 Scroll past Wi-Fi and Bluetooth. Find the blue ♿ icon.', target:'row-accessibility', alsoAccept:[], action:'showAccessibility'},
-      {title:'Tap Display & Text Size', instruction:'Tap "Display & Text Size" in Accessibility.', meaning:'This controls how big text appears across your whole phone.', hint:'💡 It\'s near the top, under the Vision section.', target:'row-display-text', alsoAccept:[], action:'showDisplayText'},
+      {title:'Tap Accessibility', instruction:'Scroll down and tap on the word "Accessibility".', meaning:'Accessibility has tools to make your phone easier to use.', hint:'💡 Scroll past Wi-Fi and Bluetooth. Find the blue ♿ icon.', target:'row-accessibility', alsoAccept:[], action:'showAccessibility'},
+      {title:'Tap Display & Text Size', instruction:'Tap on "Display & Text Size" in Accessibility.', meaning:'This controls how big text appears across your whole phone.', hint:'💡 It\'s near the top, under the Vision section.', target:'row-display-text', alsoAccept:[], action:'showDisplayText'},
       {title:'Tap Larger Text', instruction:'Tap "Larger Text" to open the slider.', meaning:'This opens a slider you can drag to choose your text size.', hint:'💡 Look for "Larger Text" with the big A icon.', target:'row-larger-text', alsoAccept:[], action:'showLargerText'},
       {title:'Drag the Slider Right', instruction:'Drag the slider to the right to make text bigger.', meaning:'More to the right = bigger text. Choose what feels comfortable!', hint:'💡 Grab the round circle on the slider and drag it to the right.', target:'font-slider', alsoAccept:['font-slider-done'], action:'increaseFont'},
     ]
