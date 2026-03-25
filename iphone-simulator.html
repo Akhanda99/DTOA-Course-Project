@@ -1357,7 +1357,7 @@ const TASKS=[
   },
   {
     id:'wifi', difficulty:'easy',
-    name:'Turn On Wi-Fi', emoji:'🛜', iconBg:'#D1FAE5',
+    name:'Turn On Wi-Fi', emoji:'🛜', iconBg:'#D1FAE5', 
     xp:50,
     learn:{
       title:'Wi-Fi',
@@ -1535,7 +1535,7 @@ function renderHome(){
     }
     // text search
     if(q){
-      const hay=[task.name,task.difficulty,task.learn.title].join(' ').toLowerCase();
+      const hay=[task.name,task.difficulty,task.learn.title].join(' ').toLowerCase().replace('wi-fi','wifi').replace('wi‑fi','wifi');
       if(!hay.includes(q)) return false;
     }
     return true;
@@ -1659,7 +1659,7 @@ function updateDicePanel(){
 // ═══════════════════════════════════════════════════════
 function handleSearch(){
   const input=document.getElementById('searchInput');
-  GS.searchQuery=input.value;
+  GS.searchQuery=input.value.replace(/wi-fi/gi,'wifi').replace(/wi‑fi/gi,'wifi');
   const hasTxt=input.value.length>0;
   const clear=document.getElementById('searchClear');
   const kbd=document.getElementById('searchKbd');
