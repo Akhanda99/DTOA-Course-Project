@@ -784,8 +784,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   filter:drop-shadow(0 6px 16px rgba(0,0,0,.25));
 }
 @keyframes trophyBounce{0%{transform:scale(0);opacity:0}60%{transform:scale(1.15)}80%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}
-.comp-modal-title{font-size:26px;font-weight:900;color:#fff;margin-bottom:6px}
-.comp-modal-sub{font-size:14px;color:rgba(255,255,255,.85);font-weight:600}
+.comp-modal-title{font-size:30px;font-weight:900;color:#fff;margin-bottom:6px}
+.comp-modal-sub{font-size:18px;color:rgba(255,255,255,.85);font-weight:600}
 .comp-modal-body{padding:24px 28px}
 .comp-xp-badge{
   display:flex;align-items:center;justify-content:center;gap:10px;
@@ -1412,6 +1412,7 @@ const TASKS=[
 const GS={
   progress:{},
   totalXP:0, streak:0, diceRolls:0, diceXP:0,
+  lastDiceTaskId: null,
   trophies:[],
   lastActivityDate: null,
   userName: '',
@@ -1431,9 +1432,12 @@ function getModulesDone(taskId){
 function isTaskFullyDone(taskId){return getModulesDone(taskId)===3}
 function anyTaskFullyDone(){return TASKS.some(t=>isTaskFullyDone(t.id))}
 
-function isTaskUnlocked(idx){
+/*function isTaskUnlocked(idx){
   if(idx===0) return true;
   return isTaskFullyDone(TASKS[idx-1].id);
+}*/
+function isTaskUnlocked(idx){
+  return true; // all tasks always unlocked
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1760,7 +1764,8 @@ function completedLearn(){
 // ═══════════════════════════════════════════════════════
 function startSim(task, mode){
   const sim=GS.sim;
-  Object.assign(sim,{task,mode,step:0,correct:0,wrong:0,wrongStreak:0,hintUsed:false,airplaneOn:false,wifiOn:false,bluetoothOn:false,fontVal:50});
+  //Object.assign(sim,{task,mode,step:0,correct:0,wrong:0,wrongStreak:0,hintUsed:false,airplaneOn:false,wifiOn:false,bluetoothOn:false,fontVal:50});
+  Object.assign(sim,{task,mode,step:0,correct:0,wrong:0,wrongStreak:0,hintUsed:false,airplaneOn:false,wifiOn:false,bluetoothOn:false,fontVal:50,fromDice:false});
   document.getElementById('simTaskName').textContent=task.name;
   const badge=document.getElementById('simModeBadge');
   badge.textContent=mode==='practice'?'📖 Practice':'⭐ Test';
@@ -2144,11 +2149,43 @@ function finishSim(){
     document.getElementById('practiceCompXP').textContent='+'+xp+' XP';
     document.getElementById('practiceCompBg').classList.remove('hidden');
   } else {
-    // Test mode — trophy modal
     xp=Math.round(task.xp*0.6);
     GS.progress[task.id].test={done:true,correct,wrong};
     GS.totalXP+=xp;
     checkDailyStreak();
+
+    if(sim.fromDice){
+      // Dice challenge complete — special modal
+      GS.diceXP+=xp;
+      const msgs=[
+        {emoji:'🌟', title:'You\'ve got it!', sub:`"${task.name}" — done perfectly. You really know your iPhone now!`},
+        {emoji:'🏅', title:'Challenge complete!', sub:`You remembered "${task.name}" without any help. Brilliant work!`},
+      ];
+      const m=msgs[Math.floor(Math.random()*msgs.length)];
+      document.getElementById('compTrophyIcon').textContent=m.emoji;
+      document.getElementById('compTitle').textContent=m.title;
+      document.getElementById('compSub').textContent=m.sub;
+      document.getElementById('compPts').textContent='+'+xp+' XP';
+      // hide share section for dice results
+      document.querySelector('.comp-share-section').style.display='none';
+      launchConfetti();
+      document.getElementById('compModalBg').classList.remove('hidden');
+    } else {
+      // Normal test — trophy modal
+      const alreadyHas=GS.trophies.some(t=>t.taskId===task.id);
+      if(!alreadyHas){
+        GS.trophies.push({taskId:task.id, taskName:task.name, emoji:task.emoji, label:getTrophyLabel(task.id), xp, date:new Date().toLocaleDateString()});
+      }
+      document.getElementById('compTrophyIcon').textContent='🏆';
+      document.getElementById('compTitle').textContent='You earned a Trophy!';
+      document.getElementById('compSub').textContent=`"${getTrophyLabel(task.id)}" — ${task.name}`;
+      document.getElementById('compPts').textContent='+'+xp+' XP';
+      document.querySelector('.comp-share-section').style.display='';
+      launchConfetti();
+      document.getElementById('compModalBg').classList.remove('hidden');
+    }
+  }
+  /*
     // Only add ONE trophy per task (dedup by taskId)
     const alreadyHas=GS.trophies.some(t=>t.taskId===task.id);
     if(!alreadyHas){
@@ -2163,6 +2200,7 @@ function finishSim(){
     launchConfetti();
     document.getElementById('compModalBg').classList.remove('hidden');
   }
+    */
 }
 
 function closePracticeComp(goToTest){
@@ -2353,7 +2391,7 @@ window.addEventListener('resize',()=>{ if(document.getElementById('simScreen').c
 function handleDiceClick(){
   if(!anyTaskFullyDone()) showToast('🔒 Complete a task first!','wrong');
 }
-function handleDicePlay(){
+/* function handleDicePlay(){
   const completedTasks = TASKS.filter(t => isTaskFullyDone(t.id));
   if (completedTasks.length === 0) return;
   GS.diceRolls++;
@@ -2369,8 +2407,37 @@ function handleDicePlay(){
       startSim(randomTask, 'test');
     }, 1200);
   }, 600);
-}
+}*/
 
+function handleDicePlay(){
+  const completedTasks = TASKS.filter(t => isTaskFullyDone(t.id));
+  if (completedTasks.length === 0) return;
+
+  GS.diceRolls++;
+
+  // avoid picking same task twice in a row (if more than 1 available)
+  let pool = completedTasks;
+  if(completedTasks.length > 1 && GS.lastDiceTaskId){
+    pool = completedTasks.filter(t => t.id !== GS.lastDiceTaskId);
+  }
+  const randomTask = pool[Math.floor(Math.random() * pool.length)];
+  GS.lastDiceTaskId = randomTask.id;
+
+  // animate dice
+  const face = document.getElementById('diceFace');
+  face.classList.add('dice-rolling');
+
+  setTimeout(() => {
+    face.classList.remove('dice-rolling');
+    showToast(`🎲 Challenge: ${randomTask.name}`, 'info');
+    setTimeout(() => {
+      startSim(randomTask, 'test');
+      GS.sim.fromDice = true;
+    }, 1200);
+  }, 600);
+
+  renderHome();
+}
 // ═══════════════════════════════════════════════════════
 //  SCREENS
 // ═══════════════════════════════════════════════════════
@@ -2379,7 +2446,6 @@ function showScreen(id){
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
-
 // ═══════════════════════════════════════════════════════
 //  TOAST
 // ═══════════════════════════════════════════════════════
