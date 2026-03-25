@@ -151,6 +151,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   margin-top: 60px;
   margin-bottom:28px;
   display:flex;flex-direction:column;gap: 20px;
+  width: 400px;
 }
 .search-field-row{
   position:relative;
@@ -409,7 +410,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 }
 .dice-panel-header{
   background:var(--green-dk);
-  padding:20px 20px 18px;
+  padding:12px 20px 10px;
   text-align:center;
 }
 .dice-panel-title{
@@ -419,17 +420,17 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 }
 .dice-panel-sub{font-size:14px;color:rgba(255,255,255,.6);font-weight:600}
 .dice-visual{
-  padding:24px 20px 20px;
+  padding:14px 20px 12px;
   display:flex;flex-direction:column;align-items:center;
-  gap:16px;
+  gap:10px;
 }
 .dice-wrap{
-  width:100px;height:100px;
+  width:80px;height:80px;
   position:relative;
   cursor:pointer;
 }
 .dice-face{
-  width:100px;height:100px;
+  width: 80px;;height:80px;
   background:linear-gradient(145deg,#fff 0%,#F0F4F0 100%);
   border-radius:18px;
   border:3px solid var(--border);
@@ -499,7 +500,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .dice-play-btn:disabled{background:#E5E7EB;box-shadow:0 4px 0 #C5C7CB;color:#9CA3AF;cursor:not-allowed;transform:none}
 
 .dice-panel-footer{
-  padding:14px 20px;
+  padding:8px 20px;
   border-top:2px solid var(--border);
   display:flex;flex-direction:column;gap:8px;
 }
@@ -959,8 +960,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 <div id="landingScreen" class="screen active">
   <div class="landing-box">
     <!--div class="landing-logo">📱</div-->
-    <div class="landing-app-name">Any<span>Name</span></div>
-    <div class="landing-tagline">Learn your iPhone, step by step.<br>Safe, simple, and fun.</div>
+    <div class="landing-app-name">Phone<span>Duo</span></div>
+    <div class="landing-tagline">Learn your iPhone, step by step.<br>Simple, friendly, and fun.</div>
 
     <!-- Google sign-in button (UI only) -->
     <button class="landing-google-btn" onclick="alert('Google sign-in is not implemented in this demo. Just enter a name below to start learning!')">
@@ -1007,7 +1008,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
             type="text"
             class="search-input"
             id="searchInput"
-            placeholder="Search tasks… "
+            placeholder="Search tasks… e.g. Wi-Fi, text size"
             autocomplete="off"
             oninput="handleSearch()"
             onkeydown="handleSearchKey(event)"
@@ -1049,7 +1050,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
       </div>
 
       <!-- Trophy shelf (always visible) -->
-      <div id="trophyShelf"></div>
+      <!--div id="trophyShelf"></div-->
 
       <div id="taskPath"></div>
     </div>
@@ -1091,7 +1092,25 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
               🎲 <span id="diceRolls">0 rolls</span>
             </div>
           </div>
+          <!--div id="sideTrophyList" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;"></div-->
         </div>
+      </div>
+      <!-- Trophy Shelf Side Panel -->
+      <div id="sideTrophyPanel" style="
+        background:#fff;
+        border:2px solid #E6C800;
+        border-radius:18px;
+        margin-top:16px;
+        overflow:hidden;
+        box-shadow:0 2px 16px rgba(46,158,79,.08);
+      ">
+        <div style="
+          background:#FFF9E6;
+          padding:14px 18px;
+          border-bottom:2px solid #E6C800;
+          font-size:16px;font-weight:900;color:#92400E;
+        ">🏆 <span id="sideTrophyTitle">Your Trophy Shelf</span></div>
+        <div id="sideTrophyList" style="padding:14px;"></div>
       </div>
     </div>
 
@@ -1333,7 +1352,7 @@ const TASKS=[
     },
     simSteps:[
       {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is like the control panel of your iPhone.', hint:'💡 Look for the grey gear ⚙️ icon labeled "Settings".', target:'app-settings', alsoAccept:[], action:'showSettings'},
-      {title:'Turn On Airplane Mode', instruction:'Tap the Airplane Mode row to turn it ON — the switch turns green.', meaning:'The green switch means it\'s ON. Grey means OFF.', hint:'💡 Airplane Mode is the very first row. Tap anywhere on that row.', target:'row-airplane', alsoAccept:['airplane-toggle'], action:'toggleAirplane'},
+      {title:'Turn On Airplane Mode', instruction:'Tap the toggle next to Airplane Mode.\nIt will turn green — that means it\'s ON.', meaning:'The green switch means it\'s ON. Grey means OFF.', hint:'💡 Airplane Mode is the very first row. Tap anywhere on that row.', target:'airplane-toggle', alsoAccept:[], action:'toggleAirplane'},
     ]
   },
   {
@@ -1348,7 +1367,7 @@ const TASKS=[
     simSteps:[
       {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is the control panel of your iPhone.', hint:'💡 Grey gear ⚙️ icon on the home screen.', target:'app-settings', alsoAccept:[], action:'showSettings'},
       {title:'Tap Wi-Fi', instruction:'Tap "Wi-Fi" in the Settings list.', meaning:'This opens the Wi-Fi settings page where you can turn it on.', hint:'💡 Wi-Fi is near the top of Settings, just below Airplane Mode.', target:'row-wifi', alsoAccept:[], action:'showWifiDetail'},
-      {title:'Turn On Wi-Fi', instruction:'Tap the Wi-Fi toggle switch to turn it ON — it turns green.', meaning:'Green means Wi-Fi is on and your phone will connect to your home network.', hint:'💡 Tap the switch next to "Wi-Fi" at the top of this page.', target:'wifi-toggle', alsoAccept:['row-wifi-toggle'], action:'toggleWifi'},
+      {title:'Turn On Wi-Fi', instruction:'Tap the toggle next to Wi-Fi.\nIt will turn green — that means it\'s ON.', meaning:'Green means Wi-Fi is on and your phone will connect to your home network.', hint:'💡 Tap the switch next to "Wi-Fi" at the top of this page.', target:'wifi-toggle', action:'toggleWifi'},
     ]
   },
   {
@@ -1363,7 +1382,7 @@ const TASKS=[
     simSteps:[
       {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is the control panel of your iPhone.', hint:'💡 Grey gear ⚙️ icon on the home screen.', target:'app-settings', alsoAccept:[], action:'showSettings'},
       {title:'Tap Bluetooth', instruction:'Tap "Bluetooth" in the Settings list.', meaning:'This opens the Bluetooth settings page where you can turn it on.', hint:'💡 Bluetooth is just below Wi-Fi near the top of Settings.', target:'row-bluetooth', alsoAccept:[], action:'showBluetoothDetail'},
-      {title:'Turn On Bluetooth', instruction:'Tap the Bluetooth toggle switch to turn it ON — it turns green.', meaning:'Green means Bluetooth is on and your phone can find nearby wireless devices.', hint:'💡 Tap the switch next to "Bluetooth" at the top of this page.', target:'bluetooth-toggle', alsoAccept:['row-bluetooth-toggle'], action:'toggleBluetooth'},
+      {title:'Turn On Bluetooth', instruction:'Tap the toggle next to Bluetooth.\nIt will turn green — that means it\'s ON.', meaning:'Green means Bluetooth is on and your phone can find nearby wireless devices.', hint:'💡 Tap the switch next to "Bluetooth" at the top of this page.', target:'bluetooth-toggle', alsoAccept:[], action:'toggleBluetooth'},
     ]
   },
   // ── HARD ──
@@ -1516,7 +1535,7 @@ function renderHome(){
     }
     // text search
     if(q){
-      const hay=[task.name,task.desc,task.difficulty,task.learn.title,task.learn.plain].join(' ').toLowerCase();
+      const hay=[task.name,task.difficulty,task.learn.title].join(' ').toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
@@ -1625,12 +1644,12 @@ function updateDicePanel(){
   const req=document.getElementById('diceReq');
   if(unlocked){
     btn.disabled=false; face.classList.remove('locked'); overlay.classList.add('hidden');
-    desc.textContent='You unlocked Challenge Mode! Roll the dice to get a random challenge.';
+    if(desc) desc.textContent='You unlocked Challenge Mode! Roll the dice to get a random challenge.';
     req.classList.add('hidden');
     document.getElementById('dicePanel').classList.add('just-unlocked');
   } else {
     btn.disabled=true; face.classList.add('locked'); overlay.classList.remove('hidden');
-    desc.textContent='Finish all 3 modules of any task to unlock this challenge!';
+    if(desc) desc.textContent='Finish all 3 modules of any task to unlock this challenge!';
     req.classList.remove('hidden');
   }
 }
@@ -1659,10 +1678,14 @@ function clearSearch(){
   document.getElementById('searchClear').classList.remove('visible');
   document.getElementById('searchKbd').classList.remove('hide');
   GS.activeFilter='all';
+  //document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active-chip'));
+  //document.querySelector('[data-filter="all"]').classList.add('active-chip');
   document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active-chip'));
-  document.querySelector('[data-filter="all"]').classList.add('active-chip');
+  const allChip=document.querySelector('[data-filter="all"]');
+  if(allChip) allChip.classList.add('active-chip');
   document.getElementById('searchMeta').innerHTML='';
-  renderHome();
+  //renderHome();
+  window.renderHome();
   input.focus();
 }
 
@@ -1671,14 +1694,16 @@ function setFilter(f){
   document.querySelectorAll('.filter-chip').forEach(c=>{
     c.classList.toggle('active-chip', c.dataset.filter===f);
   });
-  renderHome();
+  //renderHome();
+  window.renderHome();
 }
 
 function highlightText(text, query){
-  if(!query) return text;
+  if(!query||!text) return text||'';
   const re=new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
   return text.replace(re,'<mark class="search-match">$1</mark>');
 }
+  
 
 // Keyboard shortcut: press "/" to focus search
 document.addEventListener('keydown',e=>{
@@ -1903,7 +1928,7 @@ function renderBelowPhone(){
         ">${isDone?'✓':i+1}</div>
         <div>
           <div style="font-size:16px;font-weight:800;color:${isCurrent?'#1A1A2E':'#6B7280'};margin-bottom:${isCurrent?'2px':'0'}">${s.title}</div>
-          ${isCurrent?`<div style="font-size:16px;color:#4A90D9;font-weight:600;line-height:1.5;margin-top:2px">${s.instruction}</div>`:''}
+          ${isCurrent?`<div style="font-size:16px;color:#4A90D9;font-weight:600;line-height:1.5;margin-top:2px;white-space:pre-line">${s.instruction}</div>`:''}
         </div>
       </div>`;
     }).join('');
@@ -1978,7 +2003,8 @@ function tap(id){
       else renderBelowPhone();
     },sim.mode==='practice'?650:400);
   } else {
-    const meaningful=id.startsWith('app-')||id.startsWith('row-')||id.startsWith('dk-')||id==='airplane-toggle';
+    const meaningful=id.startsWith('app-')||id.startsWith('row-')||id.startsWith('dk-')||id==='airplane-toggle'||id==='wifi-toggle'||id==='bluetooth-toggle';
+    //const meaningful=id.startsWith('app-')||id.startsWith('row-')||id.startsWith('dk-')||id==='airplane-toggle';
     if(meaningful){
       sim.wrong++;
       sim.wrongStreak++;
@@ -1993,7 +2019,7 @@ function buildWifiDetail(){
   document.getElementById('wifiDetailContent').innerHTML=`
     <div class="settings-group">
       <div class="settings-section">
-        <div class="setting-row" id="row-wifi-toggle" onclick="tap('wifi-toggle')">
+        <div class="setting-row" id="row-wifi-toggle">
           <div class="setting-row-text"><div class="setting-row-title" style="font-size:16px">Wi-Fi</div></div>
           <div class="setting-row-right">
             <div class="ios-toggle${on?' on':''}" id="wifi-toggle" onclick="event.stopPropagation();tap('wifi-toggle')"></div>
@@ -2024,7 +2050,7 @@ function buildBluetoothDetail(){
   document.getElementById('bluetoothDetailContent').innerHTML=`
     <div class="settings-group">
       <div class="settings-section">
-        <div class="setting-row" id="row-bluetooth-toggle" onclick="tap('bluetooth-toggle')">
+        <div class="setting-row" id="row-bluetooth-toggle">
           <div class="setting-row-text"><div class="setting-row-title" style="font-size:16px">Bluetooth</div></div>
           <div class="setting-row-right">
             <div class="ios-toggle${on?' on':''}" id="bluetooth-toggle" onclick="event.stopPropagation();tap('bluetooth-toggle')"></div>
@@ -2184,11 +2210,42 @@ function shareTrophy(platform){
     navigator.clipboard?.writeText(text).then(()=>showToast('📋 Copied!','info'));
   }
 }
-// ─── TROPHY SHELF ─────────────────────────────────────
+
 function renderTrophyShelf(){
+  const titleEl = document.getElementById('sideTrophyTitle');
+  if(titleEl) titleEl.textContent = (GS.userName || 'Your') + "'s Trophy Shelf";
+
+  const side = document.getElementById('sideTrophyList');
+  if(side){
+    if(GS.trophies.length === 0){
+      side.innerHTML = `
+        <div style="text-align:center;padding:20px 10px;color:#9CA3AF;">
+          <div style="font-size:32px;margin-bottom:8px">🏆</div>
+          <div style="font-size:13px;font-weight:700;line-height:1.5">Complete a task test<br>to earn your first trophy!</div>
+        </div>`;
+    } else {
+      side.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          ${GS.trophies.map(t=>`
+            <div style="
+              background:#FFFDE7;border:1.5px solid #E6C800;
+              border-radius:12px;padding:12px 10px;
+              text-align:center;
+            ">
+              <div style="font-size:28px;margin-bottom:6px">🏆</div>
+              <div style="font-size:12px;font-weight:900;color:#1A2E1A;line-height:1.3;margin-bottom:4px">${t.label}</div>
+              <div style="font-size:11px;color:#92400E;">Earned ${t.date}</div>
+            </div>
+          `).join('')}
+        </div>`;
+    }
+  }
+}
+// ─── TROPHY SHELF ─────────────────────────────────────
+/* function renderTrophyShelf(){
   const shelf=document.getElementById('trophyShelf');
   if(!shelf) return;
-  shelf.style.display='block'; // always visible
+  shelf.style.display='block';
 
   if(GS.trophies.length===0){
     shelf.innerHTML=`
@@ -2202,37 +2259,66 @@ function renderTrophyShelf(){
           <span class="trophy-count-badge" style="background:#E5E7EB;color:#9CA3AF">0</span>
         </div>
       </div>`;
-    return;
+  } else {
+    const cards=GS.trophies.map(t=>`
+      <div class="trophy-card">
+        <div class="trophy-card-visual">
+          <span class="trophy-card-shine">✨</span>
+          <span class="trophy-card-medal">🏆</span>
+          <span style="font-size:28px">${t.emoji}</span>
+        </div>
+        <div class="trophy-card-body">
+          <div class="trophy-card-title">${t.taskName}</div>
+          <div class="trophy-card-label">${t.label}</div>
+          <div class="trophy-card-date">Earned ${t.date}</div>
+        </div>
+      </div>`).join('');
+    shelf.innerHTML=`
+      <div class="trophy-shelf-wrap">
+        <div class="trophy-shelf-header" onclick="toggleTrophyItems()">
+          <span class="trophy-shelf-header-icon">🏆</span>
+          <div class="trophy-shelf-header-text">
+            <div class="trophy-shelf-header-title">Your Trophy Shelf</div>
+            <div class="trophy-shelf-header-sub">Tap to see what you've earned</div>
+          </div>
+          <span class="trophy-count-badge">${GS.trophies.length}</span>
+          <button class="trophy-shelf-toggle" id="trophyToggleBtn" onclick="event.stopPropagation();toggleTrophyItems()">Show ▼</button>
+        </div>
+        <div class="trophy-cards-grid hidden" id="trophyItems">${cards}</div>
+      </div>`;
   }
 
-  const cards=GS.trophies.map(t=>`
-    <div class="trophy-card">
-      <div class="trophy-card-visual">
-        <span class="trophy-card-shine">✨</span>
-        <span class="trophy-card-medal">🏆</span>
-        <span style="font-size:28px">${t.emoji}</span>
-      </div>
-      <div class="trophy-card-body">
-        <div class="trophy-card-title">${t.taskName}</div>
-        <div class="trophy-card-label">${t.label}</div>
-        <div class="trophy-card-date">Earned ${t.date}</div>
-      </div>
-    </div>`).join('');
-  shelf.innerHTML=`
-    <div class="trophy-shelf-wrap">
-      <div class="trophy-shelf-header" onclick="toggleTrophyItems()">
-        <span class="trophy-shelf-header-icon">🏆</span>
-        <div class="trophy-shelf-header-text">
-          <div class="trophy-shelf-header-title">Your Trophy Shelf</div>
-          <div class="trophy-shelf-header-sub">Tap to see what you've earned</div>
-        </div>
-        <span class="trophy-count-badge">${GS.trophies.length}</span>
-        <button class="trophy-shelf-toggle" id="trophyToggleBtn" onclick="event.stopPropagation();toggleTrophyItems()">Show ▼</button>
-      </div>
-      <div class="trophy-cards-grid hidden" id="trophyItems">${cards}</div>
-    </div>`;
-}
+  // Update side trophy panel
+  const titleEl = document.getElementById('sideTrophyTitle');
+  if(titleEl) titleEl.textContent = (GS.userName || 'Your') + "'s Trophy Shelf";
 
+  const side = document.getElementById('sideTrophyList');
+  if(side){
+    if(GS.trophies.length === 0){
+      side.innerHTML = `
+        <div style="text-align:center;padding:20px 10px;color:#9CA3AF;">
+          <div style="font-size:32px;margin-bottom:8px">🏆</div>
+          <div style="font-size:13px;font-weight:700;line-height:1.5">Complete a task test<br>to earn your first trophy!</div>
+        </div>`;
+    } else {
+      side.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          ${GS.trophies.map(t=>`
+            <div style="
+              background:#FFFDE7;border:1.5px solid #E6C800;
+              border-radius:12px;padding:12px 10px;
+              text-align:center;
+            ">
+              <div style="font-size:28px;margin-bottom:6px">🏆</div>
+              <div style="font-size:12px;font-weight:900;color:#1A2E1A;line-height:1.3;margin-bottom:4px">${t.label}</div>
+              <div style="font-size:11px;color:#92400E;">Earned ${t.date}</div>
+            </div>
+          `).join('')}
+        </div>`;
+    }
+  }
+}
+*/
 function toggleTrophyItems(){
   const el=document.getElementById('trophyItems');
   const btn=document.getElementById('trophyToggleBtn');
