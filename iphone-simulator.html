@@ -138,8 +138,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   padding:0 24px 80px;
   align-items:start;
 }
-.path-col{padding:40px 40px 40px 0}
-.side-col{padding:40px 0 40px 0;position:sticky;top:80px}
+.path-col{padding:40px 40px 40px 0;max-height:calc(100vh - 58px);overflow-y:scroll;}
+.side-col{padding:40px 0px 40px 30px;position:sticky;top:80px}
 
 .path-header{margin-bottom:28px}
 .path-greeting{font-size:28px;font-weight:900;color:var(--text);line-height:1.2;margin-bottom:4px}
@@ -350,7 +350,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .task-status-badge.locked{background:#F3F4F6;color:#9CA3AF}
 
 /* Module row */
-.modules-row{display:flex;gap:10px}
+.modules-row{display:flex;gap:0;align-items:flex-start;}
 .module-btn{
   flex:1;
   padding:15px 8px 10px;
@@ -364,7 +364,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   position:relative;
   overflow:hidden;
 }
-.module-btn:hover:not(.mod-locked):not(.mod-done){
+.module-btn:hover:not(.mod-locked):not(.mod-done):not(.mod-active){
   transform:translateY(-2px);
   box-shadow:0 4px 16px rgba(0,0,0,.1);
 }
@@ -373,13 +373,18 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   border-color:var(--green);
   cursor:default;
 }
+
 .module-btn.mod-active{
   border-color:var(--blue);
   background:var(--blue-light);
+  transform:scale(1.0);
+  box-shadow:0 4px 16px rgba(74,144,217,.2);
 }
 .module-btn.mod-locked{
   background:#F9FAFB;
   cursor:not-allowed;
+  transform:scale(0.8);
+  opacity:0.7;
 }
 .module-icon{font-size:22px;line-height:1}
 .module-label{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--text2)}
@@ -418,7 +423,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   font-size:20px;font-weight:900;
   color:#fff;margin-bottom:4px;
 }
-.dice-panel-sub{font-size:14px;color:rgba(255,255,255,.6);font-weight:600}
+.dice-panel-sub{font-size:16px;color:rgba(255,255,255,.6);font-weight:600}
 .dice-visual{
   padding:14px 20px 12px;
   display:flex;flex-direction:column;align-items:center;
@@ -883,6 +888,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   margin-bottom:4px;
   text-transform:uppercase;letter-spacing:.4px;
 }
+@keyframes scrollBob{
+  0%,100%{transform:translateY(0);opacity:.6}
+  50%{transform:translateY(4px);opacity:1}
+}
 .trophy-card-date{font-size:11px;color:var(--text2)}
 
 /* 🔥 Daily streak popup */
@@ -893,6 +902,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   display:flex;align-items:center;justify-content:center;
   animation:fadeIn .25s ease;
 }
+.path-col{padding:40px 40px 40px 0;max-height:calc(100vh - 58px);overflow-y:scroll;}
 .streak-popup{
   background:#fff;
   border-radius:24px;
@@ -908,12 +918,16 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .streak-popup-label{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px}
 .streak-popup-sub{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:24px}
 .streak-popup-btn{
-  width:100%;padding:14px;border:none;border-radius:12px;
+  width:100%;padding:18px;border:none;border-radius:16px;
   background:#FF6B00;color:#fff;
-  font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;
-  cursor:pointer;transition:opacity .15s;
+  font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;
+  cursor:pointer;
+  box-shadow:0 6px 0 #C45000;
+  transition:transform .1s,box-shadow .1s;
+  letter-spacing:.3px;
 }
-.streak-popup-btn:hover{opacity:.88}
+.streak-popup-btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 #C45000}
+.streak-popup-btn:active{transform:translateY(2px);box-shadow:0 3px 0 #C45000}
 
 /* toasts */
 .toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
@@ -925,8 +939,22 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 @keyframes tOut{from{opacity:1}to{opacity:0}}
 
 /* scrollbar */
+/* Default — thin subtle (phone simulator screens) */
 ::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#C5D0C0;border-radius:2px}
+
+/* Main learning page — thick, visible, green */
+.path-col::-webkit-scrollbar{width:14px}
+.path-col::-webkit-scrollbar-track{background:transparent}
+.path-col::-webkit-scrollbar-thumb{background:#C7C7CC;border-radius:2px}
+.path-col::-webkit-scrollbar-thumb:hover{background:#8E8E93}
+
+/* Phone settings scroll — thin, iOS-style grey */
+.settings-scroll::-webkit-scrollbar{width:3px}
+.settings-scroll::-webkit-scrollbar-track{background:transparent}
+.settings-scroll::-webkit-scrollbar-thumb{background:#C7C7CC;border-radius:2px}
+.settings-scroll::-webkit-scrollbar-thumb:hover{background:#8E8E93}
 
 @keyframes diceRollAnim {
   0% { transform: rotate(0deg) scale(1); }
@@ -940,6 +968,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 /* unlock anim */
 @keyframes unlockPop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 .just-unlocked{animation:unlockPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes shakeLocked{
+  0%{transform:scale(0.93) translateX(0)}
+  20%{transform:scale(0.93) translateX(-5px)}
+  40%{transform:scale(0.93) translateX(5px)}
+  60%{transform:scale(0.93) translateX(-4px)}
+  80%{transform:scale(0.93) translateX(4px)}
+  100%{transform:scale(0.93) translateX(0)}
+}
+.shake-locked{animation:shakeLocked .4s ease!important;}
 
 @keyframes confettiFall{
   0%{transform:translateY(0) rotate(0deg);opacity:1}
@@ -1052,6 +1089,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
       <!-- Trophy shelf (always visible) -->
       <!--div id="trophyShelf"></div-->
 
+      <div id="hintContainer"></div>
       <div id="taskPath"></div>
     </div>
 
@@ -1060,7 +1098,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
       <div class="dice-panel" id="dicePanel">
         <div class="dice-panel-header">
           <div class="dice-panel-title">🎲 Roll the Dice</div>
-          <div class="dice-panel-sub">Challenge Mode</div>
+          <div class="dice-panel-sub">Get a random task to practice your memory!</div>
         </div>
         <div class="dice-visual">
           <div class="dice-wrap" id="diceWrap" onclick="handleDiceClick()">
@@ -1079,7 +1117,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
             Complete <strong>Learn + Practice + Test</strong> on any task to unlock
           </div>
           <button class="dice-play-btn" id="dicePlayBtn" disabled onclick="handleDicePlay()">
-            🎲 Roll the Dice
+            Play Now!
           </button>
         </div>
         <div class="dice-panel-footer">
@@ -1213,7 +1251,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
       <span style="font-size:20px;font-weight:900;color:#92400E" id="practiceCompXP">+20 XP</span>
     </div>
     <div style="display:flex;gap:10px">
-      <button onclick="closePracticeComp(false)" style="flex:1;padding:13px;border:2px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;cursor:pointer;background:#fff;color:var(--text2)">Back to Path</button>
+      <button onclick="closePracticeComp(false)" style="flex:1;padding:13px;border:2px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;cursor:pointer;background:#fff;color:var(--text2)">Back to Home</button>
       <button onclick="closePracticeComp(true)" style="flex:1;padding:13px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;background:var(--green);color:#fff;box-shadow:0 3px 0 var(--green-dk)">Take the Test</button>
     </div>
   </div>
@@ -1250,7 +1288,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
         </div>
       </div>
       <div class="comp-footer-btns">
-        <button class="comp-btn primary" id="compNextBtn" onclick="closeCompModal()">Back to Path 🎉</button>
+        <button class="comp-btn primary" id="compNextBtn" onclick="closeCompModal()">Back to Lesson 🎉</button>
       </div>
     </div>
   </div>
@@ -1279,7 +1317,26 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="streak-popup-number" id="streakPopupNum">1</div>
     <div class="streak-popup-label">Day Streak!</div>
     <div class="streak-popup-sub" id="streakPopupSub">You made progress today. Keep it up — come back tomorrow to grow your streak!</div>
-    <button class="streak-popup-btn" onclick="closeStreakPopup()">Awesome! 🎉</button>
+    <button class="streak-popup-btn" onclick="closeStreakPopup()">Awesome!</button>
+  </div>
+</div>
+<div class="modal-backdrop hidden" id="testIntroBg">
+  <div style="background:#fff;border-radius:24px;width:100%;max-width:380px;padding:40px 32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:slideUp .35s cubic-bezier(.34,1.56,.64,1)">
+    <div style="font-size:64px;margin-bottom:16px" id="testIntroEmoji">⭐</div>
+    <div style="font-size:22px;font-weight:900;color:var(--text);margin-bottom:8px">Time to Test!</div>
+    <div style="font-size:18px;font-weight:800;color:var(--green-dk);margin-bottom:16px" id="testIntroTaskName"></div>
+    
+    <div style="background:#FFF9E6;border:2px solid #FFD700;border-radius:14px;padding:14px 18px;margin-bottom:16px;text-align:left;">
+      <div style="font-size:18px;font-weight:800;color:#92400E;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:8px">Your Task</div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);line-height:1.6" id="testIntroTaskDesc">You need to complete this task on your own.</div>
+    </div>
+
+    <div style="background:#FEF2F2;border:2px solid #FCA5A5;border-radius:14px;padding:14px 18px;margin-bottom:24px;text-align:left;">
+      <div style="font-size:13px;font-weight:800;color:#B91C1C;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:6px">🚫 No Hints This Time</div>
+    </div>
+    <button onclick="closeTestIntro()" style="width:100%;padding:16px;border:none;border-radius:14px;background:var(--green);color:#fff;font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 var(--green-dk)">
+      I'm Ready!
+    </button>
   </div>
 </div>
 
@@ -1413,6 +1470,7 @@ const GS={
   progress:{},
   totalXP:0, streak:0, diceRolls:0, diceXP:0,
   lastDiceTaskId: null,
+  hintDismissed: false,   // ← add this
   trophies:[],
   lastActivityDate: null,
   userName: '',
@@ -1421,13 +1479,93 @@ const GS={
   compModule:null, compTaskId:null,
   searchQuery:'', activeFilter:'all',
 };
-
+function dismissHint(){
+  GS.hintDismissed=true;
+  const el=document.getElementById('firstVisitHint');
+  if(el) el.style.cssText+='transition:opacity .3s,transform .3s;opacity:0;transform:translateY(-8px);';
+  setTimeout(()=>{
+    const container=document.getElementById('hintContainer');
+    if(container) container.innerHTML='';
+  }, 320);
+}
 // init progress
 TASKS.forEach(t=>{ GS.progress[t.id]={learn:false,practice:{done:false,correct:0,wrong:0},test:{done:false,correct:0,wrong:0}} });
 
 function getModulesDone(taskId){
   const p=GS.progress[taskId];
   return (p.learn?1:0)+(p.practice.done?1:0)+(p.test.done?1:0);
+}
+
+function renderHint(){
+  const container=document.getElementById('hintContainer');
+  if(!container) return;
+  if(GS.hintDismissed){ container.innerHTML=''; return; }
+  if(container.innerHTML.trim()!=='') return; // already rendered, don't rebuild
+  container.innerHTML=`
+    <div id="firstVisitHint" style="
+      background:linear-gradient(135deg,#E8F7ED,#C6F6D5);
+      border:2.5px solid var(--green);
+      border-radius:18px;
+      padding:20px;
+      margin-bottom:24px;
+      position:relative;
+      box-shadow:0 4px 20px rgba(46,158,79,.15);
+    ">
+      <button onclick="dismissHint()" style="
+        position:absolute;top:12px;right:12px;
+        width:32px;height:32px;
+        background:var(--red);
+        border:none;border-radius:50%;
+        font-size:16px;font-weight:900;
+        color:text;cursor:pointer;
+        display:flex;align-items:center;justify-content:center;
+      " title="Dismiss">✕</button>
+      <div style="font-size:18px;font-weight:900;color:var(--green-dk);margin-bottom:14px;padding-right:36px;">
+        Here's how to get started:
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+
+        <div style="background:#fff;border:2px solid var(--green);border-radius:16px;padding:16px 12px;text-align:center;box-shadow:0 2px 8px rgba(46,158,79,.1);position:relative;">
+          <div style="
+            position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+            width:26px;height:26px;border-radius:50%;
+            background:var(--green);color:#fff;
+            font-size:13px;font-weight:900;
+            display:flex;align-items:center;justify-content:center;
+            border:2px solid #fff;
+          ">1</div>
+          <div style="font-size:28px;margin-bottom:8px;margin-top:6px">⬇️</div>
+          <div style="font-size:14px;font-weight:800;color:var(--text);line-height:1.5">Scroll down to see all your tasks</div>
+        </div>
+
+        <div style="background:#fff;border:2px solid var(--green-dk);border-radius:16px;padding:16px 12px;text-align:center;box-shadow:0 2px 8px rgba(74,144,217,.1);position:relative;">
+          <div style="
+            position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+            width:26px;height:26px;border-radius:50%;
+            background:var(--green-dk);color:#fff;
+            font-size:13px;font-weight:900;
+            display:flex;align-items:center;justify-content:center;
+            border:2px solid #fff;
+          ">2</div>
+          <div style="font-size:28px;margin-bottom:8px;margin-top:6px">📚</div>
+          <div style="font-size:14px;font-weight:800;color:var(--text);line-height:1.5">Tap <strong style="color:var(--blue)">Learn</strong> on any task to begin</div>
+        </div>
+
+        <div style="background:#fff;border:2px solid var(--green-dk);border-radius:16px;padding:16px 12px;text-align:center;box-shadow:0 2px 8px rgba(30,122,58,.1);position:relative;">
+          <div style="
+            position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+            width:26px;height:26px;border-radius:50%;
+            background:var(--green-dk);color:#fff;
+            font-size:13px;font-weight:900;
+            display:flex;align-items:center;justify-content:center;
+            border:2px solid #fff;
+          ">3</div>
+          <div style="font-size:28px;margin-bottom:8px;margin-top:6px">🎯</div>
+          <div style="font-size:14px;font-weight:800;color:var(--text);line-height:1.5">Then do <strong style="color:var(--green-dk)">Practice</strong>, then <strong style="color:var(--green-dk)">Test</strong></div>
+        </div>
+
+      </div>
+    </div>`;
 }
 function isTaskFullyDone(taskId){return getModulesDone(taskId)===3}
 function anyTaskFullyDone(){return TASKS.some(t=>isTaskFullyDone(t.id))}
@@ -1557,6 +1695,7 @@ function renderHome(){
   const path=document.getElementById('taskPath');
   path.innerHTML='';
 
+
   if(filtered.length===0){
     path.innerHTML=`
       <div class="no-results">
@@ -1600,7 +1739,7 @@ function renderHome(){
       {key:'test', icon:'⭐', label:'Test', done:p.test.done, active:unlocked&&p.practice.done&&!p.test.done},
     ];
 
-    const modBtns=modules.map(m=>{
+    /*const modBtns=modules.map(m=>{
       const isLocked=!unlocked||(m.key==='practice'&&!p.learn)||(m.key==='test'&&!p.practice.done);
       let cls='module-btn';
       if(m.done) cls+=' mod-done';
@@ -1611,7 +1750,49 @@ function renderHome(){
       const onclick=(!isLocked&&!m.done)?`onclick="handleModuleClick('${task.id}','${m.key}')"`:
                     (m.done)?`onclick="handleModuleClick('${task.id}','${m.key}',true)"`:'';
       return`<button class="${cls}" ${onclick}>${check}${lock}<span class="module-icon">${m.icon}</span><span class="module-label">${m.label}</span></button>`;
-    }).join('');
+    }).join('');*/
+    const modBtns=modules.map((m,i)=>{
+      const isLocked=!unlocked||(m.key==='practice'&&!p.learn)||(m.key==='test'&&!p.practice.done);
+      let cls='module-btn';
+      if(m.done) cls+=' mod-done';
+      else if(m.active) cls+=' mod-active';
+      else if(isLocked) cls+=' mod-locked';
+      const check=m.done?`<span class="module-checkmark">✓</span>`:'';
+      const lock=isLocked&&!m.done?`<span class="module-lock" style="font-size:18px;font-weight:900">🔒</span>`:'';
+      let statusLabel='';
+      if(m.done) statusLabel=`<span style="font-size:14px;color:var(--green-dk);font-weight:900;margin-top:4px">Done ✓</span>`;
+      else if(m.key==='learn'&&!p.learn&&!isLocked) statusLabel=`<span style="font-size:14px;color:var(--green-dk);font-weight:900;margin-top:4px">▶ Start here</span>`;
+      else if(m.key==='practice'&&p.learn&&!p.practice.done&&!isLocked) statusLabel=`<span style="font-size:14px;color:var(--green-dk);font-weight:900;margin-top:4px">▶ Ready to Practice!</span>`;
+      else if(m.key==='test'&&p.practice.done&&!p.test.done&&!isLocked) statusLabel=`<span style="font-size:14px;color:var(--green-dk);font-weight:900;margin-top:4px">▶ Ready to test!</span>`;
+      else if(isLocked&&m.key==='practice') statusLabel=`<span style="font-size:13px;color:#6B7280;font-weight:800;margin-top:4px">🔒 Do Learn first</span>`;
+      else if(isLocked&&m.key==='test') statusLabel=`<span style="font-size:13px;color:#6B7280;font-weight:800;margin-top:4px">🔒 Do Practice first</span>`;
+      const onclick=(!isLocked&&!m.done)?`onclick="handleModuleClick('${task.id}','${m.key}')"`:
+                    (m.done)?`onclick="handleModuleClick('${task.id}','${m.key}',true)"`:
+                    `onclick="shakeLocked(this)"`;
+      return`<button class="${cls}" ${onclick}>${check}${lock}<span class="module-icon">${m.icon}</span><span class="module-label">${m.label}</span>${statusLabel}</button>`;
+    });
+
+    // build arrows between buttons
+    // arrow 1: learn→practice — green if learn done, grey if not
+    const arrow1Color = p.learn ? 'var(--green)' : '#D1D5DB';
+    // arrow 2: practice→test — green if practice done, grey if not  
+    const arrow2Color = p.practice.done ? 'var(--green)' : '#D1D5DB';
+
+    const arrowSvg=(color)=>`
+      <div style="display:flex;align-items:flex-start;justify-content:center;flex-shrink:0;padding-top:10px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12 L19 12" stroke="${color}" stroke-width="2" stroke-linecap="round"/>
+          <path d="M13 6 L19 12 L13 18" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>`;
+
+    const modBtnsHtml=`
+      ${modBtns[0]}
+      ${arrowSvg(arrow1Color)}
+      ${modBtns[1]}
+      ${arrowSvg(arrow2Color)}
+      ${modBtns[2]}
+    `;
 
     path.innerHTML+=`
       <div class="task-card ${done?'completed':''} ${!unlocked?'locked':''}">
@@ -1625,7 +1806,7 @@ function renderHome(){
           </div>
           ${statusBadge}
         </div>
-        <div class="modules-row">${modBtns}</div>
+        <div class="modules-row" style="align-items:center;justify-content:space-between">${modBtnsHtml}</div>
         <div class="xp-bar-wrap">
           <div class="xp-bar-top">
             <span>${task.xp} XP available</span>
@@ -1635,7 +1816,8 @@ function renderHome(){
         </div>
       </div>`;
   });
-
+  // Scroll hint — only show if not searching and tasks overflow
+  
   updateDicePanel();
 }
 
@@ -1648,7 +1830,7 @@ function updateDicePanel(){
   const req=document.getElementById('diceReq');
   if(unlocked){
     btn.disabled=false; face.classList.remove('locked'); overlay.classList.add('hidden');
-    if(desc) desc.textContent='You unlocked Challenge Mode! Roll the dice to get a random challenge.';
+    if(desc) desc.textContent="We'll pick one of your completed tasks at random to test your memory!";
     req.classList.add('hidden');
     document.getElementById('dicePanel').classList.add('just-unlocked');
   } else {
@@ -1762,7 +1944,7 @@ function completedLearn(){
 // ═══════════════════════════════════════════════════════
 //  SIMULATOR
 // ═══════════════════════════════════════════════════════
-function startSim(task, mode){
+function startSim(task, mode, skipTestIntro=false){
   const sim=GS.sim;
   //Object.assign(sim,{task,mode,step:0,correct:0,wrong:0,wrongStreak:0,hintUsed:false,airplaneOn:false,wifiOn:false,bluetoothOn:false,fontVal:50});
   Object.assign(sim,{task,mode,step:0,correct:0,wrong:0,wrongStreak:0,hintUsed:false,airplaneOn:false,wifiOn:false,bluetoothOn:false,fontVal:50,fromDice:false});
@@ -1775,6 +1957,14 @@ function startSim(task, mode){
   const body=document.getElementById('simBody');
   body.classList.toggle('practice-layout', mode==='practice');
   showScreen('simScreen');
+  // Show intro card for test mode
+  if(mode==='test' && !skipTestIntro){
+    const introTaskName=document.getElementById('testIntroTaskName');
+    if(introTaskName) introTaskName.textContent='"'+task.name+'"';
+    const introTaskDesc=document.getElementById('testIntroTaskDesc');
+    if(introTaskDesc) introTaskDesc.textContent='Can you '+task.name.toLowerCase()+'? Do it on the simulated iPhone screen. Good luck!';
+    document.getElementById('testIntroBg').classList.remove('hidden');
+  }
   requestAnimationFrame(()=>{
     sizePhone();
     buildIphoneHome(); buildSettings(); buildAccessibility(); buildDisplayText();
@@ -2049,7 +2239,29 @@ function buildWifiDetail(){
     </div>`:``}
     <div style="height:24px"></div>`;
 }
-
+function shakeLocked(el){
+  el.classList.remove('shake-locked');
+  void el.offsetWidth;
+  el.classList.add('shake-locked');
+  const tip=document.createElement('div');
+  tip.style.cssText=`
+    position:fixed;
+    background:#1A2E1A;color:#fff;
+    font-size:12px;font-weight:700;
+    padding:6px 14px;border-radius:20px;
+    z-index:9999;pointer-events:none;
+    animation:tIn .3s ease-out, tOut .3s ease-in 1.8s forwards;
+  `;
+  const r=el.getBoundingClientRect();
+  tip.style.left=(r.left+r.width/2)+'px';
+  tip.style.top=(r.top-36)+'px';
+  tip.style.transform='translateX(-50%)';
+  const label=el.querySelector('.module-label')?.textContent||'';
+  const msg=label==='PRACTICE'?'Complete Learn first!':'Complete Practice first!';
+  tip.textContent=msg;
+  document.body.appendChild(tip);
+  setTimeout(()=>tip.remove(),2200);
+}
 function buildBluetoothDetail(){
   const on=GS.sim.bluetoothOn||false;
   document.getElementById('bluetoothDetailContent').innerHTML=`
@@ -2185,23 +2397,8 @@ function finishSim(){
       document.getElementById('compModalBg').classList.remove('hidden');
     }
   }
-  /*
-    // Only add ONE trophy per task (dedup by taskId)
-    const alreadyHas=GS.trophies.some(t=>t.taskId===task.id);
-    if(!alreadyHas){
-      GS.trophies.push({taskId:task.id, taskName:task.name, emoji:task.emoji, label:getTrophyLabel(task.id), xp, date:new Date().toLocaleDateString()});
-    }
-    GS.compTaskId=task.id;
-    document.getElementById('compTrophyIcon').textContent='🏆';
-    document.getElementById('compTitle').textContent='You earned a Trophy!';
-    document.getElementById('compSub').textContent=`"${getTrophyLabel(task.id)}" — ${task.name}`;
-    document.getElementById('compPts').textContent='+'+xp+' XP';
-    // launch confetti
-    launchConfetti();
-    document.getElementById('compModalBg').classList.remove('hidden');
-  }
-    */
 }
+
 
 function closePracticeComp(goToTest){
   document.getElementById('practiceCompBg').classList.add('hidden');
@@ -2431,8 +2628,8 @@ function handleDicePlay(){
     face.classList.remove('dice-rolling');
     showToast(`🎲 Challenge: ${randomTask.name}`, 'info');
     setTimeout(() => {
-      startSim(randomTask, 'test');
-      GS.sim.fromDice = true;
+      // Show dice intro popup BEFORE startSim
+      showDiceIntro(randomTask);
     }, 1200);
   }, 600);
 
@@ -2463,13 +2660,53 @@ const _origRenderHome=renderHome;
 window.renderHome=function(){
   _origRenderHome();
   renderTrophyShelf();
+  renderHint();
 };
+function closeTestIntro(){
+  document.getElementById('testIntroBg').classList.add('hidden');
+}
+function showDiceIntro(task){
+  // Create a temporary dice intro popup
+  const bg=document.createElement('div');
+  bg.className='modal-backdrop';
+  bg.id='diceIntroBg';
+  bg.innerHTML=`
+    <div style="background:#fff;border-radius:24px;width:100%;max-width:380px;padding:40px 32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:slideUp .35s cubic-bezier(.34,1.56,.64,1)">
+      <div style="font-size:64px;margin-bottom:16px">🎲</div>
+      <div style="font-size:22px;font-weight:900;color:var(--text);margin-bottom:6px">Your Random Challenge</div>
+      <div style="font-size:17px;font-weight:800;color:var(--green-dk);margin-bottom:20px">"${task.name}"</div>
 
+      <div style="background:#E8F7ED;border:2px solid var(--green);border-radius:14px;padding:14px 18px;margin-bottom:16px;text-align:left;">
+        <div style="font-size:18px;text-align:center;font-weight:700;color:var(--text);line-height:1.6">Can you <strong>${task.name.toLowerCase()}</strong> from memory?</div>
+      </div>
+
+      <div style="background:#FEF2F2;border:2px solid #FCA5A5;border-radius:14px;padding:12px 18px;margin-bottom:24px;">
+        <div style="font-size:16px;font-weight:800;color:#B91C1C;">🚫 No hints! Trust your memory!</div>
+      </div>
+
+      <button onclick="startDiceChallenge('${task.id}')" style="width:100%;padding:16px;border:none;border-radius:14px;background:var(--green);color:#fff;font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 var(--green-dk)">
+        Let's Go! 🎲
+      </button>
+    </div>`;
+  document.body.appendChild(bg);
+}
+
+function startDiceChallenge(taskId){
+  const bg=document.getElementById('diceIntroBg');
+  if(bg) bg.remove();
+  const task=TASKS.find(t=>t.id===taskId);
+  if(!task) return;
+  startSim(task,'test', true);
+  GS.sim.fromDice=true;
+}
 // ═══════════════════════════════════════════════════════
 //  INIT — show landing screen first
 // ═══════════════════════════════════════════════════════
 // Landing screen is already .active from HTML
 // renderHome is called when user presses Start
 </script>
+<!-- ═══ TEST INTRO CARD ═══ -->
+
+
 </body>
 </html>
