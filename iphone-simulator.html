@@ -1409,7 +1409,7 @@ const TASKS=[
     },
     simSteps:[
       {title:'Open Settings', instruction:'Tap the Settings app on the home screen.', meaning:'Settings is like the control panel of your iPhone.', hint:'💡 Look for the grey gear ⚙️ icon labeled "Settings".', target:'app-settings', alsoAccept:[], action:'showSettings'},
-      {title:'Turn On Airplane Mode', instruction:'Tap the toggle next to Airplane Mode.\nIt will turn green — that means it\'s ON.', meaning:'The green switch means it\'s ON. Grey means OFF.', hint:'💡 Airplane Mode is the very first row. Tap anywhere on that row.', target:'airplane-toggle', alsoAccept:[], action:'toggleAirplane'},
+      {title:'Turn On Airplane Mode', instruction:'Tap the white circle next to the word "Airplane Mode" It will turn green, like a switch — that means it\'s ON.', meaning:'The green switch means it\'s ON. Grey means OFF.', hint:'💡 Airplane Mode is the very first row. Tap anywhere on that row.', target:'airplane-toggle', alsoAccept:[], action:'toggleAirplane'},
     ]
   },
   {
@@ -2030,7 +2030,7 @@ function buildSettings(){
   document.getElementById('settingsContent').innerHTML=`
     <div class="settings-group"><div class="settings-section">
       <div class="setting-row" id="row-airplane" onclick="tap('row-airplane')">${sIcon('airplane')}<div class="setting-row-text"><div class="setting-row-title">Airplane Mode</div></div><div class="setting-row-right"><div class="ios-toggle${sim.airplaneOn?' on':''}" id="airplane-toggle" onclick="event.stopPropagation();tap('airplane-toggle')"></div></div></div>
-      <div class="setting-row" id="row-wifi" onclick="tap('row-wifi')">${sIcon('wifi')}<div class="setting-row-text"><div class="setting-row-title">Wi-Fi</div></div><div class="setting-row-right"><span style="font-size:12px;color:#8E8E93">${sim.airplaneOn?'Off':'Home Network'}</span><span class="chevron">›</span></div></div>
+      <div class="setting-row" id="row-wifi" onclick="tap('row-wifi')">${sIcon('wifi')}<div class="setting-row-text"><div class="setting-row-title">Wi-Fi</div></div><div class="setting-row-right"><span style="font-size:12px;color:#8E8E93">${sim.airplaneOn?'Off':""}</span><span class="chevron">›</span></div></div>
       <div class="setting-row" id="row-bluetooth" onclick="tap('row-bluetooth')">${sIcon('bluetooth')}<div class="setting-row-text"><div class="setting-row-title">Bluetooth</div></div><div class="setting-row-right"><span style="font-size:12px;color:#8E8E93">On</span><span class="chevron">›</span></div></div>
     </div></div>
     <div class="settings-group" style="margin-top:22px"><div class="settings-section">
